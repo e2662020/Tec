@@ -23,7 +23,7 @@ pub struct AssetInfo {
 #[tauri::command]
 pub async fn read_file(path: String) -> TecResult<String> {
     let content = std::fs::read_to_string(&path)
-        .map_err(|e| TecError::Io(e))?;
+        .map_err(TecError::from)?;
     Ok(content)
 }
 
@@ -32,16 +32,16 @@ pub async fn write_file(path: String, content: String) -> TecResult<()> {
     // Write to temp file first, then atomic rename
     let temp_path = format!("{}.tmp", &path);
     std::fs::write(&temp_path, &content)
-        .map_err(|e| TecError::Io(e))?;
+        .map_err(TecError::from)?;
     std::fs::rename(&temp_path, &path)
-        .map_err(|e| TecError::Io(e))?;
+        .map_err(TecError::from)?;
     Ok(())
 }
 
 #[tauri::command]
 pub async fn get_file_info(path: String) -> TecResult<FileInfo> {
     let metadata = std::fs::metadata(&path)
-        .map_err(|e| TecError::Io(e))?;
+        .map_err(TecError::from)?;
     let file_name = Path::new(&path)
         .file_name()
         .and_then(|n| n.to_str())
@@ -79,10 +79,10 @@ pub struct FileInfo {
 pub async fn list_folder(path: String) -> TecResult<Vec<FileInfo>> {
     let mut files = Vec::new();
     let entries = std::fs::read_dir(&path)
-        .map_err(|e| TecError::Io(e))?;
+        .map_err(TecError::from)?;
 
     for entry in entries {
-        let entry = entry.map_err(|e| TecError::Io(e))?;
+        let entry = entry.map_err(TecError::from)?;
         let path = entry.path();
         let extension = path.extension()
             .and_then(|e| e.to_str())

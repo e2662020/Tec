@@ -34,7 +34,7 @@ pub struct SimilarImage {
 /// Import an image: hash → compress → check for similar images
 #[tauri::command]
 pub async fn import_image(source_path: String) -> TecResult<ImageMeta> {
-    let data = std::fs::read(&source_path).map_err(|e| TecError::Io(e))?;
+    let data = std::fs::read(&source_path).map_err(TecError::from)?;
     let original_size = data.len() as u64;
 
     // Compute pHash
@@ -44,7 +44,7 @@ pub async fn import_image(source_path: String) -> TecResult<ImageMeta> {
     let compressed = super::compress::compress_to_webp(&data, Some(80))?;
 
     // Get image dimensions
-    let img = image::load_from_memory(&compressed).map_err(|e| TecError::Image(e))?;
+    let img = image::load_from_memory(&compressed).map_err(TecError::from)?;
     let (width, height) = (img.width(), img.height());
 
     // Determine format from extension
@@ -71,7 +71,7 @@ pub async fn detect_similar_images(
     manifest_json: String,
 ) -> TecResult<Vec<SimilarGroup>> {
     let manifest: HashMap<String, ImageManifestEntry> =
-        serde_json::from_str(&manifest_json).map_err(|e| TecError::Serde(e))?;
+        serde_json::from_str(&manifest_json).map_err(TecError::from)?;
 
     let target_bits = u64::from_str_radix(&target_hash, 16)
         .map_err(|e| TecError::MdxFormat(format!("Invalid hash: {e}")))?;
@@ -110,7 +110,7 @@ pub async fn detect_similar_manual(
     assets_dir: String,
 ) -> TecResult<Vec<SimilarGroup>> {
     let manifest: HashMap<String, ImageManifestEntry> =
-        serde_json::from_str(&manifest_json).map_err(|e| TecError::Serde(e))?;
+        serde_json::from_str(&manifest_json).map_err(TecError::from)?;
 
     // Build list of (hash_str, bits, hash_bits)
     let mut entries: Vec<(String, u64)> = Vec::new();
