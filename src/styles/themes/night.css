@@ -1,0 +1,23 @@
+/* Night Theme - Dark, comfortable for long reading */
+[data-theme="Night"] {
+  --tec-bg-primary: #1a1a2e;
+  --tec-bg-secondary: #16213e;
+  --tec-bg-tertiary: #0f3460;
+  --tec-text-primary: #e0e0e0;
+  --tec-text-secondary: #a0a0b0;
+  --tec-text-tertiary: #707080;
+  --tec-accent: #e94560;
+  --tec-accent-hover: #ff6b81;
+  --tec-accent-bg: rgba(233, 69, 96, 0.12);
+  --tec-border: #2a2a4a;
+  --tec-border-light: #222240;
+  --tec-border-focus: #e94560;
+  --tec-code-bg: #1f2040;
+  --tec-code-text: #e0d0ff;
+  --tec-sidebar-bg: #16213e;
+  --tec-sidebar-hover: #1a2a50;
+  --tec-sidebar-active: #0f3460;
+  --tec-statusbar-bg: #12122a;
+  --tec-menubar-bg: #1a1a2e;
+  --tec-menubar-hover: #222244;
+}

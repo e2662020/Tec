@@ -1,0 +1,23 @@
+/* Tec Dark - Brand dark theme, polished for night use */
+[data-theme="Tec Dark"] {
+  --tec-bg-primary: #0f172a;
+  --tec-bg-secondary: #1e293b;
+  --tec-bg-tertiary: #334155;
+  --tec-text-primary: #e2e8f0;
+  --tec-text-secondary: #94a3b8;
+  --tec-text-tertiary: #64748b;
+  --tec-accent: #38bdf8;
+  --tec-accent-hover: #7dd3fc;
+  --tec-accent-bg: rgba(56, 189, 248, 0.1);
+  --tec-border: #334155;
+  --tec-border-light: #1e293b;
+  --tec-border-focus: #38bdf8;
+  --tec-code-bg: #1e293b;
+  --tec-code-text: #e2e8f0;
+  --tec-sidebar-bg: #1e293b;
+  --tec-sidebar-hover: #253349;
+  --tec-sidebar-active: #0f172a;
+  --tec-statusbar-bg: #0a1020;
+  --tec-menubar-bg: #0f172a;
+  --tec-menubar-hover: #1e293b;
+}

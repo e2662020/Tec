@@ -1,0 +1,9 @@
+/* Import all built-in themes */
+@import './themes/github.css';
+@import './themes/newsprint.css';
+@import './themes/night.css';
+@import './themes/pixyll.css';
+@import './themes/whitey.css';
+@import './themes/gothic.css';
+@import './themes/tec-light.css';
+@import './themes/tec-dark.css';

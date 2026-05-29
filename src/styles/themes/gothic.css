@@ -1,0 +1,25 @@
+/* Gothic Theme - Dark, dramatic, high contrast */
+[data-theme="Gothic"] {
+  --tec-bg-primary: #0d0d0d;
+  --tec-bg-secondary: #1a1a1a;
+  --tec-bg-tertiary: #262626;
+  --tec-text-primary: #f2f2f2;
+  --tec-text-secondary: #b3b3b3;
+  --tec-text-tertiary: #737373;
+  --tec-accent: #f97316;
+  --tec-accent-hover: #fb923c;
+  --tec-accent-bg: rgba(249, 115, 22, 0.12);
+  --tec-border: #333333;
+  --tec-border-light: #262626;
+  --tec-border-focus: #f97316;
+  --tec-code-bg: #1f1f1f;
+  --tec-code-text: #e5e5e5;
+  --tec-sidebar-bg: #141414;
+  --tec-sidebar-hover: #262626;
+  --tec-sidebar-active: #1a1a1a;
+  --tec-statusbar-bg: #0a0a0a;
+  --tec-menubar-bg: #0d0d0d;
+  --tec-menubar-hover: #1f1f1f;
+  --tec-font-sans: 'Fira Sans', -apple-system, sans-serif;
+  --tec-heading-scale: 1.05;
+}

@@ -1,0 +1,45 @@
+[package]
+name = "tec"
+version = "0.1.0"
+description = "Tec - A Typora-like Markdown Editor"
+authors = ["Tec Team"]
+license = "MIT"
+repository = "https://github.com/tec-editor/tec"
+edition = "2021"
+rust-version = "1.77.2"
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.6.2" }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4"
+tauri = { version = "2.11.2" }
+tauri-plugin-log = "2"
+tauri-plugin-shell = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-dialog = "2"
+
+# Error handling
+thiserror = "2"
+anyhow = "1"
+
+# ZIP / MDX format
+zip = { version = "2", default-features = false, features = ["deflate"] }
+
+# Image processing
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "gif", "webp"] }
+webp = { version = "0.3", package = "webp" }
+
+# Hashing
+sha2 = "0.10"
+
+# File system
+walkdir = "2"
+tempfile = "3"
+hex = "0.4"

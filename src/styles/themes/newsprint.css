@@ -1,0 +1,25 @@
+/* Newsprint Theme - Warm paper-like reading experience */
+[data-theme="Newsprint"] {
+  --tec-bg-primary: #faf8f5;
+  --tec-bg-secondary: #f2efe8;
+  --tec-bg-tertiary: #ebe7df;
+  --tec-text-primary: #2c2416;
+  --tec-text-secondary: #6b5e4a;
+  --tec-text-tertiary: #9e8d74;
+  --tec-accent: #8b6914;
+  --tec-accent-hover: #6b5010;
+  --tec-accent-bg: rgba(139, 105, 20, 0.08);
+  --tec-border: #d4cdbc;
+  --tec-border-light: #e5dfd1;
+  --tec-border-focus: #8b6914;
+  --tec-code-bg: #ede6d8;
+  --tec-code-text: #5c4a2a;
+  --tec-sidebar-bg: #f2efe8;
+  --tec-sidebar-hover: #e8e3d8;
+  --tec-sidebar-active: #fdf3d8;
+  --tec-statusbar-bg: #f2efe8;
+  --tec-menubar-bg: #faf8f5;
+  --tec-menubar-hover: #f0ece5;
+  --tec-font-sans: 'Charter', 'Georgia', 'Times New Roman', serif;
+  --tec-font-serif: 'Charter', 'Georgia', 'Times New Roman', serif;
+}

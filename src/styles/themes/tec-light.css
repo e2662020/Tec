@@ -1,0 +1,23 @@
+/* Tec Light - Brand theme, modern, polished */
+[data-theme="Tec Light"] {
+  --tec-bg-primary: #ffffff;
+  --tec-bg-secondary: #f8fafc;
+  --tec-bg-tertiary: #f1f5f9;
+  --tec-text-primary: #0f172a;
+  --tec-text-secondary: #475569;
+  --tec-text-tertiary: #94a3b8;
+  --tec-accent: #0ea5e9;
+  --tec-accent-hover: #0284c7;
+  --tec-accent-bg: rgba(14, 165, 233, 0.08);
+  --tec-border: #e2e8f0;
+  --tec-border-light: #f1f5f9;
+  --tec-border-focus: #0ea5e9;
+  --tec-code-bg: #f1f5f9;
+  --tec-code-text: #0f172a;
+  --tec-sidebar-bg: #f8fafc;
+  --tec-sidebar-hover: #e8f0fe;
+  --tec-sidebar-active: #e0f2fe;
+  --tec-statusbar-bg: #f8fafc;
+  --tec-menubar-bg: #ffffff;
+  --tec-menubar-hover: #f1f5f9;
+}

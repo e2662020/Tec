@@ -1,0 +1,25 @@
+/* Pixyll Theme - Light, clean, with distinctive typography */
+[data-theme="Pixyll"] {
+  --tec-bg-primary: #ffffff;
+  --tec-bg-secondary: #f8f5ff;
+  --tec-bg-tertiary: #f0ebfc;
+  --tec-text-primary: #2d2438;
+  --tec-text-secondary: #5c506e;
+  --tec-text-tertiary: #8b7fa0;
+  --tec-accent: #7c3aed;
+  --tec-accent-hover: #6d28d9;
+  --tec-accent-bg: rgba(124, 58, 237, 0.08);
+  --tec-border: #d8cef0;
+  --tec-border-light: #e8e0f8;
+  --tec-border-focus: #7c3aed;
+  --tec-code-bg: #f3eefc;
+  --tec-code-text: #4c1d95;
+  --tec-sidebar-bg: #f8f5ff;
+  --tec-sidebar-hover: #ede5fc;
+  --tec-sidebar-active: #e8dcfc;
+  --tec-statusbar-bg: #f8f5ff;
+  --tec-menubar-bg: #ffffff;
+  --tec-menubar-hover: #f5f0ff;
+  --tec-font-sans: 'Lora', 'Georgia', serif;
+  --tec-line-height: 1.7;
+}

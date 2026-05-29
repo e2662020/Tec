@@ -1,0 +1,195 @@
+/* ====== Milkdown Editor Styles ====== */
+
+.milkdown {
+  font-family: var(--tec-font-sans);
+  font-size: 16px;
+  line-height: var(--tec-line-height);
+  color: var(--tec-text-primary);
+}
+
+/* Headings */
+.milkdown h1 {
+  font-size: 2em;
+  font-weight: 600;
+  margin: 0.67em 0;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--tec-border-light);
+}
+
+.milkdown h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin: 0.83em 0;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--tec-border-light);
+}
+
+.milkdown h3 {
+  font-size: 1.25em;
+  font-weight: 600;
+  margin: 1em 0;
+}
+
+.milkdown h4 {
+  font-size: 1em;
+  font-weight: 600;
+  margin: 1.33em 0;
+}
+
+.milkdown h5 {
+  font-size: 0.875em;
+  font-weight: 600;
+  margin: 1.67em 0;
+}
+
+.milkdown h6 {
+  font-size: 0.85em;
+  font-weight: 600;
+  margin: 2.33em 0;
+  color: var(--tec-text-secondary);
+}
+
+/* Paragraphs */
+.milkdown p {
+  margin: 0 0 16px 0;
+}
+
+/* Links */
+.milkdown a {
+  color: var(--tec-accent);
+  text-decoration: none;
+}
+
+.milkdown a:hover {
+  text-decoration: underline;
+}
+
+/* Bold & Italic */
+.milkdown strong {
+  font-weight: 600;
+}
+
+.milkdown em {
+  font-style: italic;
+}
+
+/* Code */
+.milkdown code {
+  font-family: var(--tec-font-mono);
+  font-size: 0.875em;
+  padding: 0.2em 0.4em;
+  background: var(--tec-code-bg);
+  border-radius: 3px;
+  color: var(--tec-code-text);
+}
+
+.milkdown pre {
+  background: var(--tec-code-bg);
+  border: 1px solid var(--tec-border-light);
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 0 0 16px 0;
+}
+
+.milkdown pre code {
+  padding: 0;
+  background: none;
+  font-size: 0.875em;
+  line-height: 1.5;
+}
+
+/* Blockquote */
+.milkdown blockquote {
+  margin: 0 0 16px 0;
+  padding: 0 16px;
+  border-left: 4px solid var(--tec-accent);
+  color: var(--tec-text-secondary);
+}
+
+.milkdown blockquote p {
+  margin: 8px 0;
+}
+
+/* Lists */
+.milkdown ul,
+.milkdown ol {
+  padding-left: 24px;
+  margin: 0 0 16px 0;
+}
+
+.milkdown li {
+  margin: 4px 0;
+}
+
+/* Task Lists */
+.milkdown li[data-type="taskItem"] {
+  list-style: none;
+  margin-left: -24px;
+}
+
+.milkdown li[data-type="taskItem"] input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* Tables */
+.milkdown table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 16px 0;
+}
+
+.milkdown th {
+  background: var(--tec-bg-secondary);
+  font-weight: 600;
+  padding: 8px 12px;
+  border: 1px solid var(--tec-border);
+  text-align: left;
+}
+
+.milkdown td {
+  padding: 8px 12px;
+  border: 1px solid var(--tec-border);
+}
+
+.milkdown tr:nth-child(even) td {
+  background: var(--tec-bg-secondary);
+}
+
+/* Horizontal rule */
+.milkdown hr {
+  border: none;
+  border-top: 1px solid var(--tec-border-light);
+  margin: 24px 0;
+}
+
+/* Images */
+.milkdown img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* ProseMirror inner */
+.ProseMirror {
+  outline: none;
+  min-height: 200px;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+/* ProseMirror selection */
+.ProseMirror ::selection {
+  background: rgba(9, 105, 218, 0.2);
+}
+
+/* ProseMirror placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: var(--tec-text-tertiary);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

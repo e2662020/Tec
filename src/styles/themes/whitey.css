@@ -1,0 +1,25 @@
+/* Whitey Theme - Ultra-clean, high contrast, minimalist */
+[data-theme="Whitey"] {
+  --tec-bg-primary: #ffffff;
+  --tec-bg-secondary: #f9fafb;
+  --tec-bg-tertiary: #f3f4f6;
+  --tec-text-primary: #111827;
+  --tec-text-secondary: #4b5563;
+  --tec-text-tertiary: #9ca3af;
+  --tec-accent: #3b82f6;
+  --tec-accent-hover: #2563eb;
+  --tec-accent-bg: rgba(59, 130, 246, 0.06);
+  --tec-border: #e5e7eb;
+  --tec-border-light: #f3f4f6;
+  --tec-border-focus: #3b82f6;
+  --tec-code-bg: #f3f4f6;
+  --tec-code-text: #1f2937;
+  --tec-sidebar-bg: #fafbfc;
+  --tec-sidebar-hover: #f3f4f6;
+  --tec-sidebar-active: #eff6ff;
+  --tec-statusbar-bg: #f9fafb;
+  --tec-menubar-bg: #ffffff;
+  --tec-menubar-hover: #f3f4f6;
+  --tec-content-width: 800px;
+  --tec-line-height: 1.8;
+}

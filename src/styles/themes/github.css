@@ -1,0 +1,23 @@
+/* GitHub Theme - Clean, minimal, inspired by GitHub's design */
+[data-theme="GitHub"] {
+  --tec-bg-primary: #ffffff;
+  --tec-bg-secondary: #f6f8fa;
+  --tec-bg-tertiary: #f0f2f5;
+  --tec-text-primary: #1f2328;
+  --tec-text-secondary: #656d76;
+  --tec-text-tertiary: #8b949e;
+  --tec-accent: #0969da;
+  --tec-accent-hover: #0550ae;
+  --tec-accent-bg: rgba(9, 105, 218, 0.08);
+  --tec-border: #d0d7de;
+  --tec-border-light: #e8eaed;
+  --tec-border-focus: #0969da;
+  --tec-code-bg: rgba(175, 184, 193, 0.2);
+  --tec-code-text: #1f2328;
+  --tec-sidebar-bg: #f6f8fa;
+  --tec-sidebar-hover: #e8eaed;
+  --tec-sidebar-active: #ddf4ff;
+  --tec-statusbar-bg: #f6f8fa;
+  --tec-menubar-bg: #ffffff;
+  --tec-menubar-hover: #f0f2f5;
+}

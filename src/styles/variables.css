@@ -1,0 +1,87 @@
+:root {
+  /* Background & Text */
+  --tec-bg-primary: #ffffff;
+  --tec-bg-secondary: #f6f8fa;
+  --tec-bg-tertiary: #f0f2f5;
+  --tec-text-primary: #24292f;
+  --tec-text-secondary: #57606a;
+  --tec-text-tertiary: #8b949e;
+
+  /* Accent */
+  --tec-accent: #0969da;
+  --tec-accent-hover: #0550ae;
+  --tec-accent-bg: rgba(9, 105, 218, 0.08);
+
+  /* Borders */
+  --tec-border: #d0d7de;
+  --tec-border-light: #e8eaed;
+  --tec-border-focus: #0969da;
+
+  /* Code */
+  --tec-code-bg: #afb8c133;
+  --tec-code-text: #24292f;
+
+  /* Typography */
+  --tec-font-mono: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+  --tec-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  --tec-font-serif: 'Charter', 'Georgia', 'Noto Serif', 'Times New Roman', serif;
+  --tec-line-height: 1.6;
+  --tec-content-width: 860px;
+  --tec-heading-scale: 1.0;
+
+  /* Sidebar */
+  --tec-sidebar-bg: #f6f8fa;
+  --tec-sidebar-hover: #e8eaed;
+  --tec-sidebar-active: #ddf4ff;
+  --tec-sidebar-width: 240px;
+
+  /* Status bar */
+  --tec-statusbar-bg: #f6f8fa;
+  --tec-statusbar-height: 28px;
+
+  /* Menu bar */
+  --tec-menubar-bg: #ffffff;
+  --tec-menubar-height: 32px;
+  --tec-menubar-hover: #f0f2f5;
+
+  /* Scrollbar */
+  --tec-scrollbar-thumb: #c1c1c1;
+  --tec-scrollbar-track: transparent;
+
+  /* Shadows */
+  --tec-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --tec-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Transitions */
+  --tec-transition-fast: 120ms ease;
+  --tec-transition-normal: 200ms ease;
+}
+
+/* Dark theme */
+[data-theme='Tec Dark'] {
+  --tec-bg-primary: #1e1e2e;
+  --tec-bg-secondary: #252536;
+  --tec-bg-tertiary: #2d2d3f;
+  --tec-text-primary: #cdd6f4;
+  --tec-text-secondary: #a6adc8;
+  --tec-text-tertiary: #6c7086;
+
+  --tec-accent: #89b4fa;
+  --tec-accent-hover: #b4d0fb;
+  --tec-accent-bg: rgba(137, 180, 250, 0.1);
+
+  --tec-border: #45475a;
+  --tec-border-light: #313244;
+  --tec-border-focus: #89b4fa;
+
+  --tec-code-bg: #313244;
+  --tec-code-text: #cdd6f4;
+
+  --tec-sidebar-bg: #252536;
+  --tec-sidebar-hover: #313244;
+  --tec-sidebar-active: #1e1e2e;
+
+  --tec-statusbar-bg: #181825;
+  --tec-menubar-bg: #1e1e2e;
+  --tec-menubar-hover: #313244;
+}
