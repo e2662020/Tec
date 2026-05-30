@@ -1,0 +1,100 @@
+/* ====== Context Menu (Custom Right-Click Menu) ====== */
+.context-menu {
+  position: fixed;
+  z-index: 1000;
+  min-width: 200px;
+  max-width: 260px;
+  padding: 4px;
+  background: var(--tec-bg-primary);
+  border: 1px solid var(--tec-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14), 0 1px 3px rgba(0, 0, 0, 0.08);
+  animation: contextMenuIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top left;
+  user-select: none;
+  overflow: hidden;
+}
+
+[data-theme='Tec Dark'] .context-menu {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes contextMenuIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 12.5px;
+  font-family: var(--tec-font-sans);
+  color: var(--tec-text-primary);
+  background: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background var(--tec-transition-fast);
+  white-space: nowrap;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.context-menu-item:hover:not(.disabled) {
+  background: var(--tec-sidebar-hover);
+}
+
+.context-menu-item:active:not(.disabled) {
+  background: var(--tec-sidebar-active);
+  transform: scale(0.98);
+}
+
+.context-menu-item.disabled {
+  color: var(--tec-text-tertiary);
+  opacity: 0.5;
+  cursor: default;
+}
+
+.context-menu-item-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.context-menu-item-label .bi {
+  width: 15px;
+  text-align: center;
+  flex-shrink: 0;
+  font-size: 13px;
+  color: var(--tec-text-secondary);
+}
+
+.context-menu-item:hover:not(.disabled) .context-menu-item-label .bi {
+  color: var(--tec-text-primary);
+}
+
+.context-menu-shortcut {
+  color: var(--tec-text-tertiary);
+  font-size: 11px;
+  margin-left: 20px;
+  flex-shrink: 0;
+  font-family: var(--tec-font-mono);
+}
+
+.context-menu-divider {
+  height: 1px;
+  margin: 3px 6px;
+  background: var(--tec-border-light);
+  pointer-events: none;
+}

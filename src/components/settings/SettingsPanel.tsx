@@ -13,6 +13,12 @@ const BUILT_IN_THEMES = [
   { id: 'Gothic', name: 'Gothic', type: '深色' },
 ];
 
+const SYSTEM_THEME = { id: '', name: '自动', type: '跟随系统' };
+
+function resolveSystemTheme(): string {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'Tec Dark' : 'Tec Light';
+}
+
 const FONT_OPTIONS = [
   { id: 'system', name: '系统默认', value: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif' },
   { id: 'serif', name: '衬线字体', value: '"Charter", "Georgia", "Noto Serif", "Times New Roman", serif' },
@@ -44,8 +50,12 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
   const [activeTab, setActiveTab] = useState<TabId>('general');
   const currentTheme = useEditorStore((s) => s.currentTheme);
   const setCurrentTheme = useEditorStore((s) => s.setCurrentTheme);
+  const followSystemTheme = useEditorStore((s) => s.followSystemTheme);
+  const setFollowSystemTheme = useEditorStore((s) => s.setFollowSystemTheme);
   const openInNewWindow = useEditorStore((s) => s.openInNewWindow);
   const setOpenInNewWindow = useEditorStore((s) => s.setOpenInNewWindow);
+  const autoSaveOnClose = useEditorStore((s) => s.autoSaveOnClose);
+  const setAutoSaveOnClose = useEditorStore((s) => s.setAutoSaveOnClose);
   const plugins = useEditorStore((s) => s.plugins);
   const togglePlugin = useEditorStore((s) => s.togglePlugin);
 
@@ -58,11 +68,22 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
 
   const handleThemeChange = useCallback(
     (themeId: string) => {
-      setCurrentTheme(themeId);
-      document.documentElement.setAttribute('data-theme', themeId);
-      localStorage.setItem('tec-theme', themeId);
+      if (themeId === '') {
+        // 跟随系统
+        setFollowSystemTheme(true);
+        localStorage.setItem('tec-follow-system', 'true');
+        const resolved = resolveSystemTheme();
+        setCurrentTheme(resolved);
+        document.documentElement.setAttribute('data-theme', resolved);
+      } else {
+        setFollowSystemTheme(false);
+        localStorage.setItem('tec-follow-system', 'false');
+        localStorage.setItem('tec-theme', themeId);
+        setCurrentTheme(themeId);
+        document.documentElement.setAttribute('data-theme', themeId);
+      }
     },
-    [setCurrentTheme],
+    [setCurrentTheme, setFollowSystemTheme],
   );
 
   if (!open) return null;
@@ -169,6 +190,20 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                 </div>
                 <div className="settings-item">
                   <label className="settings-label">
+                    <span>关闭时自动保存</span>
+                    <span className="settings-desc">关闭未保存文件时自动保存，不弹出提示</span>
+                  </label>
+                  <label className="settings-toggle">
+                    <input
+                      type="checkbox"
+                      checked={autoSaveOnClose}
+                      onChange={(e) => setAutoSaveOnClose(e.target.checked)}
+                    />
+                    <span className="settings-toggle-slider"></span>
+                  </label>
+                </div>
+                <div className="settings-item">
+                  <label className="settings-label">
                     <span>显示状态栏</span>
                     <span className="settings-desc">在窗口底部显示状态栏</span>
                   </label>
@@ -271,10 +306,31 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
             {activeTab === 'theme' && (
               <div className="settings-section">
                 <div className="settings-theme-grid">
+                  {/* 跟随系统（自动深浅切换） */}
+                  <button
+                    className={`settings-theme-card ${followSystemTheme ? 'active' : ''}`}
+                    onClick={() => handleThemeChange('')}
+                  >
+                    <div className="settings-theme-preview settings-theme-auto">
+                      <div className="settings-theme-preview-content">
+                        <div className="settings-theme-auto-icon">
+                          <i className="bi bi-sun-fill"></i>
+                          <i className="bi bi-arrow-right"></i>
+                          <i className="bi bi-moon-fill"></i>
+                        </div>
+                        <div className="settings-theme-preview-line"></div>
+                        <div className="settings-theme-preview-line short"></div>
+                      </div>
+                    </div>
+                    <div className="settings-theme-info">
+                      <span className="settings-theme-name">{SYSTEM_THEME.name}</span>
+                      <span className="settings-theme-type">{SYSTEM_THEME.type}</span>
+                    </div>
+                  </button>
                   {BUILT_IN_THEMES.map((theme) => (
                     <button
                       key={theme.id}
-                      className={`settings-theme-card ${currentTheme === theme.id ? 'active' : ''}`}
+                      className={`settings-theme-card ${currentTheme === theme.id && !followSystemTheme ? 'active' : ''}`}
                       data-theme={theme.name}
                       onClick={() => handleThemeChange(theme.id)}
                     >

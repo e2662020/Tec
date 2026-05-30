@@ -31,9 +31,48 @@ pub struct SimilarImage {
     pub distance: u32,
 }
 
-/// Import an image: hash → compress → check for similar images
+/// Compress an image to WebP in memory and return the hash + compressed data.
+/// Used by .mdx files: the frontend stores the data in its asset list
+/// and packages it into the ZIP on save.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CompressedImage {
+    pub hash: String,
+    pub data: Vec<u8>,
+    pub width: u32,
+    pub height: u32,
+    pub original_size: u64,
+    pub compressed_size: u64,
+}
+
 #[tauri::command]
-pub async fn import_image(source_path: String) -> TecResult<ImageMeta> {
+pub async fn compress_image(source_path: String) -> TecResult<CompressedImage> {
+    let data = std::fs::read(&source_path).map_err(TecError::from)?;
+    let original_size = data.len() as u64;
+    let phash = super::hash::phash(&data)?;
+    let compressed = super::compress::compress_to_webp(&data, Some(80))?;
+    let img = image::load_from_memory(&compressed).map_err(TecError::from)?;
+    let (width, height) = (img.width(), img.height());
+    let compressed_size = compressed.len() as u64;
+
+    log::info!(
+        "Image compressed: {} -> {}x{} ({} -> {} bytes)",
+        source_path, width, height, original_size, compressed_size
+    );
+
+    Ok(CompressedImage {
+        hash: phash.hash,
+        data: compressed,
+        width,
+        height,
+        original_size,
+        compressed_size,
+    })
+}
+
+/// Import an image: hash → compress → save to assets dir
+#[tauri::command]
+pub async fn import_image(source_path: String, save_dir: String) -> TecResult<ImageMeta> {
     let data = std::fs::read(&source_path).map_err(TecError::from)?;
     let original_size = data.len() as u64;
 
@@ -43,16 +82,39 @@ pub async fn import_image(source_path: String) -> TecResult<ImageMeta> {
     // Compress to WebP
     let compressed = super::compress::compress_to_webp(&data, Some(80))?;
 
-    // Get image dimensions
+    // 如果提供了 save_dir，才将压缩后的图片写入磁盘
+    let output_path_str = if !save_dir.is_empty() {
+        let assets_dir = Path::new(&save_dir).join("assets");
+        std::fs::create_dir_all(&assets_dir)
+            .map_err(|e| TecError::Io(format!("无法创建 assets 目录: {}", e)))?;
+
+        let output = assets_dir.join(format!("{}.webp", phash.hash));
+        std::fs::write(&output, &compressed)
+            .map_err(|e| TecError::Io(format!("保存图片失败 '{}': {}", output.display(), e)))?;
+        output.to_string_lossy().to_string()
+    } else {
+        String::from("(未保存)")
+    };
+
+    // Get image dimensions from compressed data
     let img = image::load_from_memory(&compressed).map_err(TecError::from)?;
     let (width, height) = (img.width(), img.height());
 
-    // Determine format from extension
+    // Determine original format from extension
     let format = Path::new(&source_path)
         .extension()
         .and_then(|e| e.to_str())
         .unwrap_or("png")
         .to_string();
+
+    log::info!(
+        "Image imported: {} -> {} ({}x{}, {} bytes)",
+        source_path,
+        output_path_str,
+        width,
+        height,
+        compressed.len()
+    );
 
     Ok(ImageMeta {
         hash: phash.hash,

@@ -2,6 +2,14 @@ import { create } from 'zustand';
 import type { EditorMode, FileInfo, SidebarTab, ColorMap } from '../types';
 import { DEFAULT_COLOR_MAP } from '../types';
 
+export interface MdxAsset {
+  hash: string;
+  name: string;
+  data: number[]; // compressed WebP bytes
+  width: number;
+  height: number;
+}
+
 interface PluginInfo {
   id: string;
   name: string;
@@ -17,6 +25,7 @@ interface EditorState {
   currentFileName: string | null;
   content: string;
   isDirty: boolean;
+  isNewFile: boolean; // 新建未保存文件状态
 
   // Editor
   editorMode: EditorMode;
@@ -31,18 +40,25 @@ interface EditorState {
   folderPath: string | null;
   fileList: FileInfo[];
 
+  // MDX assets (in-memory image pool for .mdx ZIP)
+  mdxAssets: MdxAsset[];
+
   // Theme
   currentTheme: string;
+  followSystemTheme: boolean;
   colorMap: ColorMap;
 
   // Settings
   openInNewWindow: boolean;
+  autoSaveOnClose: boolean;
   plugins: PluginInfo[];
 
   // Status
   wordCount: number;
   cursorLine: number;
   cursorColumn: number;
+  statusMessage: string | null;
+  statusType: 'info' | 'error' | null;
 
   // Actions
   setContent: (content: string) => void;
@@ -57,13 +73,24 @@ interface EditorState {
   setOutline: (outline: { level: number; text: string; id: string }[]) => void;
   setFolderPath: (path: string | null) => void;
   setFileList: (files: FileInfo[]) => void;
+
+  // MDX assets
+  setMdxAssets: (assets: MdxAsset[]) => void;
+  addMdxAsset: (asset: MdxAsset) => void;
+  clearMdxAssets: () => void;
+
   setCurrentTheme: (theme: string) => void;
+  setFollowSystemTheme: (value: boolean) => void;
   setColorMap: (map: ColorMap) => void;
   setOpenInNewWindow: (value: boolean) => void;
+  setAutoSaveOnClose: (value: boolean) => void;
   togglePlugin: (pluginId: string) => void;
   setWordCount: (count: number) => void;
   setCursorPosition: (line: number, column: number) => void;
+  setStatusMessage: (message: string | null, type?: 'info' | 'error') => void;
+  newFile: () => void;
   openFile: (path: string, name: string, content: string) => void;
+  fileSaved: (path: string, name: string) => void;
   closeFile: () => void;
 }
 
@@ -72,6 +99,7 @@ export const useEditorStore = create<EditorState>((set) => ({
   currentFileName: null,
   content: '',
   isDirty: false,
+  isNewFile: false,
 
   editorMode: 'wysiwyg',
 
@@ -82,11 +110,14 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   folderPath: null,
   fileList: [],
+  mdxAssets: [],
 
   currentTheme: 'Tec Light',
+  followSystemTheme: false,
   colorMap: { ...DEFAULT_COLOR_MAP },
 
   openInNewWindow: true,
+  autoSaveOnClose: false,
   plugins: [
     {
       id: 'math',
@@ -149,11 +180,13 @@ export const useEditorStore = create<EditorState>((set) => ({
   wordCount: 0,
   cursorLine: 1,
   cursorColumn: 1,
+  statusMessage: null,
+  statusType: null,
 
-  setContent: (content) => set({ content }),
+  setContent: (content) => set({ content, isDirty: true }),
 
   setCurrentFile: (path, name) =>
-    set({ currentFilePath: path, currentFileName: name }),
+    set({ currentFilePath: path, currentFileName: name, isNewFile: false }),
 
   setIsDirty: (dirty) => set({ isDirty: dirty }),
 
@@ -178,16 +211,27 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   setFileList: (files) => set({ fileList: files }),
 
+  setMdxAssets: (assets) => set({ mdxAssets: assets }),
+  addMdxAsset: (asset) => set((s) => ({
+    mdxAssets: s.mdxAssets.some((a) => a.hash === asset.hash)
+      ? s.mdxAssets
+      : [...s.mdxAssets, asset],
+  })),
+  clearMdxAssets: () => set({ mdxAssets: [] }),
+
   setCurrentTheme: (theme) => set({ currentTheme: theme }),
+
+  setFollowSystemTheme: (value) => set({ followSystemTheme: value }),
 
   setColorMap: (map) => set({ colorMap: map }),
 
   setOpenInNewWindow: (value) => set({ openInNewWindow: value }),
+  setAutoSaveOnClose: (value) => set({ autoSaveOnClose: value }),
 
   togglePlugin: (pluginId) =>
     set((s) => ({
       plugins: s.plugins.map((p) =>
-        p.id === pluginId ? { ...p, enabled: !p.enabled } : p
+        p.id === pluginId ? { ...p, enabled: !p.enabled } : p,
       ),
     })),
 
@@ -196,13 +240,51 @@ export const useEditorStore = create<EditorState>((set) => ({
   setCursorPosition: (line, column) =>
     set({ cursorLine: line, cursorColumn: column }),
 
+  setStatusMessage: (message, type = 'info') => {
+    set({ statusMessage: message, statusType: message ? type : null });
+    if (message) {
+      setTimeout(() => {
+        set((s) => {
+          if (s.statusMessage === message) {
+            return { statusMessage: null, statusType: null };
+          }
+          return {};
+        });
+      }, 6000);
+    }
+  },
+
+  // 新建空白文件 — 编辑器立即可用，标题显示"未命名"
+  newFile: () =>
+    set({
+      currentFilePath: null,
+      currentFileName: '未命名',
+      content: '',
+      isDirty: false,
+      isNewFile: true,
+      editorMode: 'wysiwyg',
+      outline: [],
+      statusMessage: '📝 新建文件 — 按 Ctrl+S 保存',
+      statusType: 'info',
+    }),
+
   openFile: (path, name, content) =>
     set({
       currentFilePath: path,
       currentFileName: name,
       content,
       isDirty: false,
+      isNewFile: false,
       editorMode: 'wysiwyg',
+    }),
+
+  // 文件保存成功后更新路径（保留当前编辑内容不变）
+  fileSaved: (path, name) =>
+    set({
+      currentFilePath: path,
+      currentFileName: name,
+      isDirty: false,
+      isNewFile: false,
     }),
 
   closeFile: () =>
@@ -211,6 +293,8 @@ export const useEditorStore = create<EditorState>((set) => ({
       currentFileName: null,
       content: '',
       isDirty: false,
+      isNewFile: false,
       outline: [],
+      mdxAssets: [],
     }),
 }));

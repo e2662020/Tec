@@ -7,14 +7,39 @@ function FileTree() {
   const fileList = useEditorStore((s) => s.fileList);
   const folderPath = useEditorStore((s) => s.folderPath);
   const currentFilePath = useEditorStore((s) => s.currentFilePath);
+  const setFolderPath = useEditorStore((s) => s.setFolderPath);
+  const setFileList = useEditorStore((s) => s.setFileList);
   const { openMdFile, openFolder, refreshFolder } = useFileOps();
 
   const handleFileClick = useCallback(
     (file: FileInfo) => {
-      openMdFile(file.path);
+      if (file.isDir) {
+        // 进入文件夹
+        setFolderPath(file.path);
+        // 重新读取子目录
+        import('@tauri-apps/api/core').then(({ invoke }) => {
+          invoke<FileInfo[]>('list_folder', { path: file.path })
+            .then(setFileList)
+            .catch(() => {});
+        });
+      } else {
+        openMdFile(file.path);
+      }
     },
-    [openMdFile],
+    [openMdFile, setFolderPath, setFileList],
   );
+
+  const handleParentClick = useCallback(() => {
+    if (!folderPath) return;
+    const parent = folderPath.split(/[\\/]/).slice(0, -1).join('/');
+    if (!parent) return;
+    setFolderPath(parent);
+    import('@tauri-apps/api/core').then(({ invoke }) => {
+      invoke<FileInfo[]>('list_folder', { path: parent })
+        .then(setFileList)
+        .catch(() => {});
+    });
+  }, [folderPath, setFolderPath, setFileList]);
 
   return (
     <div className="sidebar-file-tree">
@@ -34,14 +59,30 @@ function FileTree() {
         </div>
       </div>
       <ul className="sidebar-file-list">
-        {fileList.map((file) => (
+        {/* 返回上级 */}
+        {folderPath && (
+          <li className="sidebar-file-item folder-up" onClick={handleParentClick}>
+            <span className="file-icon">
+              <i className="bi bi-folder2-open"></i>
+            </span>
+            <span className="file-name">..</span>
+          </li>
+        )}
+        {fileList.map((file, index) => (
           <li
             key={file.path}
-            className={`sidebar-file-item ${file.path === currentFilePath ? 'active' : ''}`}
+            className={`sidebar-file-item ${file.isDir ? 'is-folder' : ''} ${!file.isDir && file.path === currentFilePath ? 'active' : ''}`}
+            style={{ animationDelay: `${index * 30}ms` }}
             onClick={() => handleFileClick(file)}
           >
             <span className="file-icon">
-              <i className={file.isMdx ? 'bi bi-box-seam' : 'bi bi-file-earmark-text'}></i>
+              {file.isDir ? (
+                <i className="bi bi-folder"></i>
+              ) : file.isMdx ? (
+                <i className="bi bi-box-seam"></i>
+              ) : (
+                <i className="bi bi-file-earmark-text"></i>
+              )}
             </span>
             <span className="file-name">{file.name}</span>
           </li>

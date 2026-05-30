@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "enables the default permissions",
+  "description": "Default capabilities for Tec Editor",
   "windows": [
     "main"
   ],
@@ -9,6 +9,12 @@
     "core:default",
     "shell:allow-open",
     "fs:default",
-    "dialog:default"
+    "fs:allow-exists",
+    "fs:allow-mkdir",
+    "fs:allow-read-text-file",
+    "fs:allow-write-text-file",
+    "dialog:allow-open",
+    "dialog:allow-save",
+    "dialog:allow-message"
   ]
 }

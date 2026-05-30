@@ -12,6 +12,7 @@
   "app": {
     "windows": [
       {
+        "label": "main",
         "title": "Tec (Beta)",
         "width": 1200,
         "height": 800,
@@ -45,13 +46,8 @@
       "open": true
     },
     "fs": {
-      "scope": {
-        "allow": ["**"],
-        "deny": []
-      }
+      "requireLiteralLeadingDot": false
     },
-    "dialog": {
-      "all": true
-    }
+    "dialog": null
   }
 }

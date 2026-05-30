@@ -49,6 +49,19 @@
   color: var(--tec-text-secondary);
 }
 
+.heading-marker {
+  font-family: var(--tec-font-mono);
+  font-size: 0.55em;
+  color: var(--tec-text-tertiary);
+  font-weight: 400;
+  user-select: none;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  vertical-align: middle;
+  margin-right: 0.2em;
+}
+
 /* Paragraphs */
 .milkdown p {
   margin: 0 0 16px 0;
@@ -170,23 +183,14 @@
   border-radius: 4px;
 }
 
-/* ProseMirror inner */
-.ProseMirror {
-  outline: none;
-  min-height: 200px;
-}
-
-.ProseMirror:focus {
-  outline: none;
-}
-
 /* ProseMirror selection */
-.ProseMirror ::selection {
+.wysiwyg-editor-wrapper .ProseMirror ::selection,
+.milkdown .ProseMirror ::selection {
   background: rgba(9, 105, 218, 0.2);
 }
 
 /* ProseMirror placeholder */
-.ProseMirror p.is-editor-empty:first-child::before {
+.milkdown .ProseMirror p.is-editor-empty:first-child::before {
   color: var(--tec-text-tertiary);
   content: attr(data-placeholder);
   float: left;

@@ -36,7 +36,8 @@ export const useGalleryStore = create<GalleryState>((set) => ({
   setSearchQuery: (searchQuery) => set({ searchQuery }),
   setImages: (images) => set({ images }),
   addImage: (image) => set((s) => ({ images: [...s.images, image] })),
-  removeImage: (hash) => set((s) => ({ images: s.images.filter((i) => i.hash !== hash) })),
+  removeImage: (hash) =>
+    set((s) => ({ images: s.images.filter((i) => i.hash !== hash) })),
   setSimilarGroups: (similarGroups) => set({ similarGroups }),
   setIsDetecting: (isDetecting) => set({ isDetecting }),
 }));

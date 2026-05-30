@@ -36,6 +36,7 @@ export interface FileInfo {
   modified: string;
   isMdx: boolean;
   isMd: boolean;
+  isDir: boolean;
 }
 
 export interface ImageMeta {

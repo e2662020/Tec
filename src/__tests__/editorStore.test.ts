@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useEditorStore } from '../store/editorStore';
+import type { FileInfo } from '../types';
 
 describe('editorStore', () => {
   beforeEach(() => {
@@ -88,9 +89,9 @@ describe('editorStore', () => {
     useEditorStore.getState().setFolderPath('/docs');
     expect(useEditorStore.getState().folderPath).toBe('/docs');
 
-    const files = [
-      { name: 'a.md', path: '/docs/a.md', size: 100, modified: '', isMdx: false, isMd: true },
-      { name: 'b.mdx', path: '/docs/b.mdx', size: 200, modified: '', isMdx: true, isMd: false },
+    const files: FileInfo[] = [
+      { name: 'a.md', path: '/docs/a.md', size: 100, modified: '', isMdx: false, isMd: true, isDir: false },
+      { name: 'b.mdx', path: '/docs/b.mdx', size: 200, modified: '', isMdx: true, isMd: false, isDir: false },
     ];
     useEditorStore.getState().setFileList(files);
     expect(useEditorStore.getState().fileList).toEqual(files);

@@ -23,25 +23,30 @@ pub struct AssetInfo {
 #[tauri::command]
 pub async fn read_file(path: String) -> TecResult<String> {
     let content = std::fs::read_to_string(&path)
-        .map_err(TecError::from)?;
+        .map_err(|e| TecError::Io(format!("读取文件失败 '{}': {}", path, e)))?;
     Ok(content)
 }
 
 #[tauri::command]
 pub async fn write_file(path: String, content: String) -> TecResult<()> {
-    // Write to temp file first, then atomic rename
+    // 确保父目录存在
+    if let Some(parent) = Path::new(&path).parent() {
+        std::fs::create_dir_all(parent)
+            .map_err(|e| TecError::Io(format!("无法创建目录 '{}': {}", parent.display(), e)))?;
+    }
+    // 原子写入：先写 temp 再 rename
     let temp_path = format!("{}.tmp", &path);
     std::fs::write(&temp_path, &content)
-        .map_err(TecError::from)?;
+        .map_err(|e| TecError::Io(format!("写入临时文件失败: {}", e)))?;
     std::fs::rename(&temp_path, &path)
-        .map_err(TecError::from)?;
+        .map_err(|e| TecError::Io(format!("重命名临时文件失败: {}", e)))?;
     Ok(())
 }
 
 #[tauri::command]
 pub async fn get_file_info(path: String) -> TecResult<FileInfo> {
     let metadata = std::fs::metadata(&path)
-        .map_err(TecError::from)?;
+        .map_err(|e| TecError::Io(format!("无法读取文件信息 '{}': {}", path, e)))?;
     let file_name = Path::new(&path)
         .file_name()
         .and_then(|n| n.to_str())
@@ -54,13 +59,15 @@ pub async fn get_file_info(path: String) -> TecResult<FileInfo> {
         .unwrap_or("")
         .to_string();
 
+    let is_dir = metadata.is_dir();
     Ok(FileInfo {
         name: file_name,
         path,
         size: metadata.len(),
         modified: format!("{:?}", metadata.modified().ok()),
-        is_mdx: extension == "mdx",
-        is_md: extension == "md",
+        is_mdx: !is_dir && extension == "mdx",
+        is_md: !is_dir && extension == "md",
+        is_dir,
     })
 }
 
@@ -73,18 +80,20 @@ pub struct FileInfo {
     pub modified: String,
     pub is_mdx: bool,
     pub is_md: bool,
+    pub is_dir: bool,
 }
 
 #[tauri::command]
 pub async fn list_folder(path: String) -> TecResult<Vec<FileInfo>> {
     let mut files = Vec::new();
     let entries = std::fs::read_dir(&path)
-        .map_err(TecError::from)?;
+        .map_err(|e| TecError::Io(format!("无法读取目录 '{}': {}", path, e)))?;
 
     for entry in entries {
-        let entry = entry.map_err(TecError::from)?;
+        let entry = entry.map_err(|e| TecError::Io(format!("读取目录项失败: {}", e)))?;
         let path = entry.path();
-        let extension = path.extension()
+        let extension = path
+            .extension()
             .and_then(|e| e.to_str())
             .unwrap_or("")
             .to_lowercase();
@@ -94,27 +103,105 @@ pub async fn list_folder(path: String) -> TecResult<Vec<FileInfo>> {
             let metadata = entry.metadata().ok();
             let file_name = entry.file_name().to_string_lossy().to_string();
 
+            let is_dir = path.is_dir();
             files.push(FileInfo {
                 name: file_name,
                 path: path.to_string_lossy().to_string(),
                 size: metadata.as_ref().map(|m| m.len()).unwrap_or(0),
                 modified: format!("{:?}", metadata.and_then(|m| m.modified().ok())),
-                is_mdx: extension == "mdx",
-                is_md: extension == "md",
+                is_mdx: !is_dir && extension == "mdx",
+                is_md: !is_dir && extension == "md",
+                is_dir,
             });
         }
     }
 
     // Sort: folders first, then files alphabetically
-    files.sort_by(|a, b| {
-        let a_is_dir = Path::new(&a.path).is_dir();
-        let b_is_dir = Path::new(&b.path).is_dir();
-        match (a_is_dir, b_is_dir) {
-            (true, false) => std::cmp::Ordering::Less,
-            (false, true) => std::cmp::Ordering::Greater,
-            _ => a.name.to_lowercase().cmp(&b.name.to_lowercase()),
-        }
+    files.sort_by(|a, b| match (a.is_dir, b.is_dir) {
+        (true, false) => std::cmp::Ordering::Less,
+        (false, true) => std::cmp::Ordering::Greater,
+        _ => a.name.to_lowercase().cmp(&b.name.to_lowercase()),
     });
 
     Ok(files)
+}
+
+// 诊断命令：尝试写入一个测试文件以验证 I/O 是否正常
+#[tauri::command]
+pub async fn diagnose_write(test_path: String) -> TecResult<String> {
+    let test_content = "# Tec 诊断测试\n\n此文件用于验证文件写入功能。\n";
+    let start = std::time::Instant::now();
+
+    // 确保父目录存在
+    if let Some(parent) = Path::new(&test_path).parent() {
+        std::fs::create_dir_all(parent).map_err(|e| {
+            TecError::Io(format!("创建目录失败 '{}': {}", parent.display(), e))
+        })?;
+    }
+
+    // 直接写文件
+    std::fs::write(&test_path, test_content)
+        .map_err(|e| TecError::Io(format!("写入失败 '{}': {}", test_path, e)))?;
+
+    // 读回验证
+    let read_back = std::fs::read_to_string(&test_path)
+        .map_err(|e| TecError::Io(format!("读回验证失败: {}", e)))?;
+
+    let ok = read_back == test_content;
+    let elapsed = start.elapsed().as_millis();
+
+    // 清理测试文件
+    let _ = std::fs::remove_file(&test_path);
+
+    Ok(format!(
+        "诊断结果: {} | 耗时: {}ms | 路径: {}",
+        if ok { "✅ 文件写入正常" } else { "❌ 内容校验失败" },
+        elapsed,
+        test_path
+    ))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_write_and_read_file() {
+        let dir = std::env::temp_dir();
+        let test_file = dir.join("tec_test_write.md");
+        let test_path = test_file.to_string_lossy().to_string();
+        let content = "# Test\n\nHello Tec!";
+
+        // 写入
+        std::fs::write(&test_path, content).expect("write should succeed");
+        assert!(test_file.exists());
+
+        // 读回
+        let read = std::fs::read_to_string(&test_path).expect("read should succeed");
+        assert_eq!(read, content);
+
+        // 清理
+        std::fs::remove_file(&test_path).expect("cleanup should succeed");
+    }
+
+    #[test]
+    fn test_atomic_write() {
+        let dir = std::env::temp_dir();
+        let test_file = dir.join("tec_test_atomic.md");
+        let test_path = test_file.to_string_lossy().to_string();
+        let temp_path = format!("{}.tmp", test_path);
+        let content = "atomic test";
+
+        // 原子写入逻辑
+        std::fs::write(&temp_path, content).unwrap();
+        std::fs::rename(&temp_path, &test_path).unwrap();
+
+        assert!(test_file.exists());
+        assert!(!std::path::Path::new(&temp_path).exists());
+
+        let read = std::fs::read_to_string(&test_path).unwrap();
+        assert_eq!(read, content);
+
+        std::fs::remove_file(&test_path).unwrap();
+    }
 }

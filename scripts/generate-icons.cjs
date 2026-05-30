@@ -36,12 +36,28 @@ async function generateIcons() {
     console.log(`  ✓ ${name} (${size}x${size})`);
   }
 
-  // Generate ICO for Windows
-  const icoPath = path.join(ICONS_DIR, 'icon.ico');
+  // Generate ICO for Windows (sharp 无法生成标准 ICO，使用 Python/Pillow)
+  const pngPath = path.join(ICONS_DIR, 'icon-temp.png');
   await sharp(svgBuffer)
     .resize(256, 256)
-    .toFile(icoPath);
-  console.log(`  ✓ icon.ico (256x256)`);
+    .png()
+    .toFile(pngPath);
+  const { execSync } = require('child_process');
+  try {
+    execSync(
+      `python -c "from PIL import Image; img=Image.open('${pngPath.replace(/\\/g, '/')}'); img.save('${path.join(ICONS_DIR, 'icon.ico').replace(/\\/g, '/')}', format='ICO', sizes=[(256,256)])"`,
+      { stdio: 'pipe' }
+    );
+    console.log(`  ✓ icon.ico (256x256)`);
+  } catch (e) {
+    // fallback: 直接将 PNG 作为 ICO（某些平台可用）
+    await sharp(svgBuffer)
+      .resize(256, 256)
+      .toFile(path.join(ICONS_DIR, 'icon.ico'));
+    console.log(`  ⚠ icon.ico (使用 PNG 转存模式)`);
+  } finally {
+    try { fs.unlinkSync(pngPath); } catch (_) {}
+  }
 
   // Generate ICNS for macOS (using PNG as base)
   const icnsPath = path.join(ICONS_DIR, 'icon.icns');
