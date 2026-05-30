@@ -37,12 +37,16 @@ interface SettingsPanelProps {
   onClose: () => void;
 }
 
-type TabId = 'general' | 'editor' | 'theme' | 'advanced';
+type TabId = 'general' | 'editor' | 'theme' | 'plugins' | 'advanced';
 
 export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
   const [activeTab, setActiveTab] = useState<TabId>('general');
   const currentTheme = useEditorStore((s) => s.currentTheme);
   const setCurrentTheme = useEditorStore((s) => s.setCurrentTheme);
+  const openInNewWindow = useEditorStore((s) => s.openInNewWindow);
+  const setOpenInNewWindow = useEditorStore((s) => s.setOpenInNewWindow);
+  const plugins = useEditorStore((s) => s.plugins);
+  const togglePlugin = useEditorStore((s) => s.togglePlugin);
 
   const handleThemeChange = useCallback(
     (themeId: string) => {
@@ -59,6 +63,7 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
     { id: 'general', label: '通用', icon: 'fa-sliders-h' },
     { id: 'editor', label: '编辑器', icon: 'fa-pen' },
     { id: 'theme', label: '主题', icon: 'fa-palette' },
+    { id: 'plugins', label: '插件', icon: 'fa-puzzle-piece' },
     { id: 'advanced', label: '高级', icon: 'fa-cog' },
   ];
 
@@ -90,6 +95,26 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
             {activeTab === 'general' && (
               <div className="settings-section">
                 <h3>通用设置</h3>
+                <div className="settings-item">
+                  <label className="settings-label">
+                    <span>打开文件方式</span>
+                    <span className="settings-desc">选择打开新文件时的行为</span>
+                  </label>
+                  <div className="settings-segmented">
+                    <button
+                      className={!openInNewWindow ? 'active' : ''}
+                      onClick={() => setOpenInNewWindow(false)}
+                    >
+                      <i className="fas fa-folder-open"></i> 新标签页
+                    </button>
+                    <button
+                      className={openInNewWindow ? 'active' : ''}
+                      onClick={() => setOpenInNewWindow(true)}
+                    >
+                      <i className="fas fa-window-maximize"></i> 新窗口
+                    </button>
+                  </div>
+                </div>
                 <div className="settings-item">
                   <label className="settings-label">
                     <span>自动保存</span>
@@ -236,6 +261,33 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                         <span className="settings-theme-type">{theme.type}</span>
                       </div>
                     </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'plugins' && (
+              <div className="settings-section">
+                <h3>插件管理</h3>
+                <div className="settings-plugins-list">
+                  {plugins.map((plugin) => (
+                    <div key={plugin.id} className={`settings-plugin-item ${plugin.enabled ? 'enabled' : ''}`}>
+                      <div className="settings-plugin-info">
+                        <div className="settings-plugin-header">
+                          <span className="settings-plugin-name">{plugin.name}</span>
+                          <span className="settings-plugin-version">v{plugin.version}</span>
+                        </div>
+                        <span className="settings-plugin-desc">{plugin.description}</span>
+                      </div>
+                      <label className="settings-toggle">
+                        <input
+                          type="checkbox"
+                          checked={plugin.enabled}
+                          onChange={() => togglePlugin(plugin.id)}
+                        />
+                        <span className="settings-toggle-slider"></span>
+                      </label>
+                    </div>
                   ))}
                 </div>
               </div>
