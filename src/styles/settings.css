@@ -183,42 +183,121 @@
   color: var(--tec-text-tertiary);
 }
 
-/* Segmented Control */
-.settings-segmented {
-  display: flex;
-  background: var(--tec-bg-secondary);
-  border: 1px solid var(--tec-border);
-  border-radius: 6px;
-  padding: 2px;
-  gap: 2px;
-  flex-shrink: 0;
+/* Option Cards (like theme cards) */
+.settings-item-vertical {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 
-.settings-segmented button {
-  display: inline-flex;
+.settings-option-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.settings-option-card {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  font-size: 12px;
-  font-family: var(--tec-font-sans);
-  color: var(--tec-text-secondary);
-  background: none;
-  border: none;
-  border-radius: 4px;
+  padding: 16px 12px 12px;
+  background: var(--tec-bg-secondary);
+  border: 2px solid transparent;
+  border-radius: 10px;
   cursor: pointer;
   transition: all var(--tec-transition-fast);
-  white-space: nowrap;
+  gap: 8px;
 }
 
-.settings-segmented button:hover {
+.settings-option-card:hover {
+  border-color: var(--tec-border);
+  transform: translateY(-1px);
+}
+
+.settings-option-card.active {
+  border-color: var(--tec-accent);
+  box-shadow: 0 0 0 3px var(--tec-accent-bg);
+}
+
+.settings-option-preview {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  position: relative;
+}
+
+.settings-option-window {
+  width: 70px;
+  height: 50px;
+  background: var(--tec-bg-primary);
+  border: 1px solid var(--tec-border);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.settings-option-window.solo {
+  width: 55px;
+  height: 42px;
+  position: absolute;
+  left: 20%;
+  top: 8px;
+  z-index: 1;
+}
+
+.settings-option-window.mini {
+  width: 55px;
+  height: 42px;
+  position: absolute;
+  right: 20%;
+  bottom: 8px;
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.settings-option-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 4px 4px 0;
+  background: var(--tec-bg-secondary);
+  border-bottom: 1px solid var(--tec-border-light);
+}
+
+.settings-option-tab {
+  flex: 1;
+  height: 10px;
+  background: var(--tec-border);
+  border-radius: 2px 2px 0 0;
+}
+
+.settings-option-tab.active {
+  background: var(--tec-bg-primary);
+}
+
+.settings-option-content {
+  flex: 1;
+  margin: 4px;
+  background: var(--tec-bg-primary);
+  border-radius: 2px;
+}
+
+.settings-option-name {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--tec-font-sans);
   color: var(--tec-text-primary);
 }
 
-.settings-segmented button.active {
-  background: var(--tec-bg-primary);
-  color: var(--tec-accent);
-  font-weight: 500;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+.settings-option-hint {
+  font-size: 11px;
+  font-family: var(--tec-font-sans);
+  color: var(--tec-text-tertiary);
 }
 
 /* Toggle Switch */

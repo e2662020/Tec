@@ -95,23 +95,42 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
             {activeTab === 'general' && (
               <div className="settings-section">
                 <h3>通用设置</h3>
-                <div className="settings-item">
+                <div className="settings-item settings-item-vertical">
                   <label className="settings-label">
                     <span>打开文件方式</span>
                     <span className="settings-desc">选择打开新文件时的行为</span>
                   </label>
-                  <div className="settings-segmented">
+                  <div className="settings-option-grid">
                     <button
-                      className={!openInNewWindow ? 'active' : ''}
+                      className={`settings-option-card ${!openInNewWindow ? 'active' : ''}`}
                       onClick={() => setOpenInNewWindow(false)}
                     >
-                      <i className="fas fa-folder-open"></i> 新标签页
+                      <div className="settings-option-preview">
+                        <div className="settings-option-window">
+                          <div className="settings-option-tabs">
+                            <div className="settings-option-tab active"></div>
+                            <div className="settings-option-tab"></div>
+                          </div>
+                          <div className="settings-option-content"></div>
+                        </div>
+                      </div>
+                      <span className="settings-option-name">新标签页</span>
+                      <span className="settings-option-hint">在当前窗口打开</span>
                     </button>
                     <button
-                      className={openInNewWindow ? 'active' : ''}
+                      className={`settings-option-card ${openInNewWindow ? 'active' : ''}`}
                       onClick={() => setOpenInNewWindow(true)}
                     >
-                      <i className="fas fa-window-maximize"></i> 新窗口
+                      <div className="settings-option-preview">
+                        <div className="settings-option-window solo">
+                          <div className="settings-option-content"></div>
+                        </div>
+                        <div className="settings-option-window mini">
+                          <div className="settings-option-content"></div>
+                        </div>
+                      </div>
+                      <span className="settings-option-name">新窗口</span>
+                      <span className="settings-option-hint">打开独立窗口</span>
                     </button>
                   </div>
                 </div>
