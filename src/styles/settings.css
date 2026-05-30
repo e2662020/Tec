@@ -529,18 +529,119 @@
 .settings-theme-preview-title {
   font-size: 18px;
   font-weight: 600;
-  color: var(--tec-text-primary);
 }
 
 .settings-theme-preview-line {
   height: 4px;
-  background: var(--tec-border);
   border-radius: 2px;
   width: 100%;
 }
 
 .settings-theme-preview-line.short {
   width: 60%;
+}
+
+/* ====== Theme Preview Styles (independent of current theme) ====== */
+
+/* Tec Light */
+.settings-theme-card[data-theme="Tec Light"] .settings-theme-preview {
+  background: #ffffff;
+  --preview-text: #0f172a;
+  --preview-accent: #0ea5e9;
+  --preview-border: #e2e8f0;
+}
+.settings-theme-card[data-theme="Tec Light"] .settings-theme-preview-title {
+  color: #0f172a;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+}
+
+/* Tec Dark */
+.settings-theme-card[data-theme="Tec Dark"] .settings-theme-preview {
+  background: #0f172a;
+  --preview-text: #e2e8f0;
+  --preview-accent: #38bdf8;
+  --preview-border: #334155;
+}
+.settings-theme-card[data-theme="Tec Dark"] .settings-theme-preview-title {
+  color: #e2e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+}
+
+/* GitHub */
+.settings-theme-card[data-theme="GitHub"] .settings-theme-preview {
+  background: #ffffff;
+  --preview-text: #1f2328;
+  --preview-accent: #0969da;
+  --preview-border: #d0d7de;
+}
+.settings-theme-card[data-theme="GitHub"] .settings-theme-preview-title {
+  color: #1f2328;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+}
+
+/* Newsprint */
+.settings-theme-card[data-theme="Newsprint"] .settings-theme-preview {
+  background: #faf8f5;
+  --preview-text: #2c2416;
+  --preview-accent: #8b6914;
+  --preview-border: #d4cdbc;
+}
+.settings-theme-card[data-theme="Newsprint"] .settings-theme-preview-title {
+  color: #2c2416;
+  font-family: 'Charter', 'Georgia', 'Times New Roman', serif;
+}
+
+/* Night */
+.settings-theme-card[data-theme="Night"] .settings-theme-preview {
+  background: #1a1a2e;
+  --preview-text: #e0e0e0;
+  --preview-accent: #e94560;
+  --preview-border: #2a2a4a;
+}
+.settings-theme-card[data-theme="Night"] .settings-theme-preview-title {
+  color: #e94560;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+}
+
+/* Pixyll */
+.settings-theme-card[data-theme="Pixyll"] .settings-theme-preview {
+  background: #ffffff;
+  --preview-text: #2d2438;
+  --preview-accent: #7c3aed;
+  --preview-border: #d8cef0;
+}
+.settings-theme-card[data-theme="Pixyll"] .settings-theme-preview-title {
+  color: #2d2438;
+  font-family: 'Lora', 'Georgia', serif;
+}
+
+/* Whitey */
+.settings-theme-card[data-theme="Whitey"] .settings-theme-preview {
+  background: #ffffff;
+  --preview-text: #111827;
+  --preview-accent: #3b82f6;
+  --preview-border: #e5e7eb;
+}
+.settings-theme-card[data-theme="Whitey"] .settings-theme-preview-title {
+  color: #111827;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+}
+
+/* Gothic */
+.settings-theme-card[data-theme="Gothic"] .settings-theme-preview {
+  background: #0d0d0d;
+  --preview-text: #f2f2f2;
+  --preview-accent: #f97316;
+  --preview-border: #333333;
+}
+.settings-theme-card[data-theme="Gothic"] .settings-theme-preview-title {
+  color: #f2f2f2;
+  font-family: 'Fira Sans', -apple-system, sans-serif;
+}
+
+/* Preview lines use theme's border color */
+.settings-theme-card .settings-theme-preview-line {
+  background: var(--preview-border);
 }
 
 .settings-theme-info {

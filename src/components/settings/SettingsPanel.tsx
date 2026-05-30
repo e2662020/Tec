@@ -278,9 +278,10 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                     <button
                       key={theme.id}
                       className={`settings-theme-card ${currentTheme === theme.id ? 'active' : ''}`}
+                      data-theme={theme.name}
                       onClick={() => handleThemeChange(theme.id)}
                     >
-                      <div className="settings-theme-preview" data-theme={theme.id}>
+                      <div className="settings-theme-preview">
                         <div className="settings-theme-preview-content">
                           <div className="settings-theme-preview-title">Aa</div>
                           <div className="settings-theme-preview-line"></div>
