@@ -13,9 +13,10 @@ interface MenuItem {
 
 interface MenuBarProps {
   onAbout?: () => void;
+  onSettings?: () => void;
 }
 
-export function MenuBar({ onAbout }: MenuBarProps) {
+export function MenuBar({ onAbout, onSettings }: MenuBarProps) {
   const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { saveFile, openMdFile, openFolder } = useFileOps();
@@ -69,6 +70,7 @@ export function MenuBar({ onAbout }: MenuBarProps) {
       },
     ],
     help: [
+      { label: '设置', shortcut: 'Ctrl+,', icon: 'fa-cog', action: () => onSettings?.() },
       { label: '关于 Tec', icon: 'fa-info-circle', action: () => onAbout?.() },
     ],
   };

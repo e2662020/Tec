@@ -5,8 +5,8 @@ import { EditorArea } from './components/editor/EditorArea';
 import { SearchReplace } from './components/editor/SearchReplace';
 import { StatusBar } from './components/statusbar/StatusBar';
 import { ImagePanel } from './components/gallery/ImagePanel';
-import { ThemeSelector } from './components/theme/ThemeSelector';
 import { Dialog } from './components/common/Dialog';
+import { SettingsPanel } from './components/settings/SettingsPanel';
 import { useEditorStore } from './store/editorStore';
 import { useFileOps } from './hooks/useFileOps';
 import { useAutoSave } from './hooks/useAutoSave';
@@ -14,6 +14,7 @@ import './styles/variables.css';
 import './styles/layout.css';
 import './styles/theme-index.css';
 import './styles/dialog.css';
+import './styles/settings.css';
 
 function App() {
   const { openMdFile, saveFile } = useFileOps();
@@ -21,6 +22,7 @@ function App() {
   const currentTheme = useEditorStore((s) => s.currentTheme);
 
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useAutoSave(30000);
 
@@ -50,6 +52,10 @@ function App() {
             e.preventDefault();
             closeFile();
             break;
+          case ',':
+            e.preventDefault();
+            setSettingsOpen(true);
+            break;
         }
       }
     };
@@ -60,13 +66,13 @@ function App() {
 
   return (
     <div className="app-container">
-      <MenuBar onAbout={() => setAboutOpen(true)} />
+      <MenuBar
+        onAbout={() => setAboutOpen(true)}
+        onSettings={() => setSettingsOpen(true)}
+      />
       <div className="app-main">
         <Sidebar />
         <div className="editor-main">
-          <div className="editor-toolbar">
-            <ThemeSelector />
-          </div>
           <EditorArea />
           <SearchReplace />
         </div>
@@ -95,6 +101,8 @@ function App() {
           </p>
         </div>
       </Dialog>
+
+      <SettingsPanel open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </div>
   );
 }
