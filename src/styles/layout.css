@@ -51,7 +51,11 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background var(--tec-transition-fast);
+  transition: background var(--tec-transition-fast), transform 0.1s ease;
+}
+
+.menubar-item:active {
+  transform: scale(0.96);
 }
 
 .menubar-item:hover,
@@ -70,6 +74,19 @@
   box-shadow: var(--tec-shadow-md);
   padding: 4px;
   z-index: 100;
+  animation: menuDropdownIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top left;
+}
+
+@keyframes menuDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .menubar-dropdown-item {
@@ -121,6 +138,35 @@
   overflow: hidden;
   flex-shrink: 0;
   position: relative;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-hidden {
+  border-right-color: transparent;
+}
+
+.sidebar-hidden .sidebar-tabs,
+.sidebar-hidden .sidebar-content,
+.sidebar-hidden .sidebar-resize-handle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar-visible .sidebar-tabs,
+.sidebar-visible .sidebar-content,
+.sidebar-visible .sidebar-resize-handle {
+  animation: sidebarContentFadeIn 0.2s ease 0.05s both;
+}
+
+@keyframes sidebarContentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .sidebar-tabs {
@@ -140,6 +186,28 @@
   border-bottom: 2px solid transparent;
   cursor: pointer;
   transition: all var(--tec-transition-fast);
+  position: relative;
+}
+
+.sidebar-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--tec-accent);
+  transition: width 0.2s ease, left 0.2s ease;
+}
+
+.sidebar-tab:hover::after {
+  width: 60%;
+  left: 20%;
+}
+
+.sidebar-tab.active::after {
+  width: 100%;
+  left: 0;
 }
 
 .sidebar-tab:hover {
@@ -235,8 +303,14 @@
   font-family: var(--tec-font-sans);
   color: var(--tec-text-primary);
   cursor: pointer;
-  transition: background var(--tec-transition-fast);
+  transition: background var(--tec-transition-fast), transform 0.15s ease;
   gap: 8px;
+  border-radius: 4px;
+  margin: 0 4px;
+}
+
+.sidebar-file-item:hover {
+  transform: translateX(2px);
 }
 
 .sidebar-file-item:hover {

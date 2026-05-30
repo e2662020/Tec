@@ -130,10 +130,11 @@ export function Sidebar() {
     [sidebarWidth, setSidebarWidth],
   );
 
-  if (!sidebarVisible) return null;
-
   return (
-    <aside className="sidebar" style={{ width: sidebarWidth }}>
+    <aside
+      className={`sidebar ${sidebarVisible ? 'sidebar-visible' : 'sidebar-hidden'}`}
+      style={{ width: sidebarVisible ? sidebarWidth : 0 }}
+    >
       <div className="sidebar-tabs">
         <button
           className={`sidebar-tab ${sidebarTab === 'files' ? 'active' : ''}`}
