@@ -80,7 +80,7 @@ export function SearchReplace() {
         </span>
       </div>
       <div className="search-replace-row">
-        <i className="bi bi-arrow-left-right" style={{ color: 'var(--tec-text-tertiary)' }}></i>
+        <i className="bi bi-save" style={{ color: 'var(--tec-text-tertiary)' }}></i>
         <input
           type="text"
           placeholder="替换为..."

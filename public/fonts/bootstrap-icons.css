@@ -21,9 +21,11 @@
 /* File & Folder */
 .bi-file-earmark::before { content: '\f38e'; }
 .bi-file-earmark-text::before { content: '\f39a'; }
+.bi-file-earmark-plus::before { content: '\f392'; }
 .bi-folder::before { content: '\f3d7'; }
 .bi-folder2-open::before { content: '\f3e2'; }
 .bi-floppy::before { content: '\f3e3'; }
+.bi-save::before { content: '\f524'; }
 
 /* Edit */
 .bi-arrow-counterclockwise::before { content: '\f117'; }
@@ -67,6 +69,7 @@
 
 /* Box/Package */
 .bi-box::before { content: '\f1c8'; }
+.bi-box-seam::before { content: '\f1c7'; }
 
 /* Spin animation */
 .bi-spin {

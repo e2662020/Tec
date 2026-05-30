@@ -41,7 +41,7 @@ function FileTree() {
             onClick={() => handleFileClick(file)}
           >
             <span className="file-icon">
-              <i className={file.isMdx ? 'bi bi-box' : 'bi bi-file-earmark-text'}></i>
+              <i className={file.isMdx ? 'bi bi-box-seam' : 'bi bi-file-earmark-text'}></i>
             </span>
             <span className="file-name">{file.name}</span>
           </li>
