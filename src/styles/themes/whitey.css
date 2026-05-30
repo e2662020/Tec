@@ -22,4 +22,9 @@
   --tec-menubar-hover: #f3f4f6;
   --tec-content-width: 800px;
   --tec-line-height: 1.8;
+  --tec-danger: #dc2626;
+  --tec-danger-bg: #fef2f2;
+  --tec-danger-border: #fecaca;
+  --tec-danger-hover: #fee2e2;
+  --tec-danger-hover-border: #fca5a5;
 }

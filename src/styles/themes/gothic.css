@@ -22,4 +22,9 @@
   --tec-menubar-hover: #1f1f1f;
   --tec-font-sans: 'Fira Sans', -apple-system, sans-serif;
   --tec-heading-scale: 1.05;
+  --tec-danger: #ef4444;
+  --tec-danger-bg: rgba(239, 68, 68, 0.15);
+  --tec-danger-border: rgba(239, 68, 68, 0.3);
+  --tec-danger-hover: rgba(239, 68, 68, 0.25);
+  --tec-danger-hover-border: rgba(239, 68, 68, 0.5);
 }

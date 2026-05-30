@@ -22,4 +22,9 @@
   --tec-menubar-hover: #f0ece5;
   --tec-font-sans: 'Charter', 'Georgia', 'Times New Roman', serif;
   --tec-font-serif: 'Charter', 'Georgia', 'Times New Roman', serif;
+  --tec-danger: #991b1b;
+  --tec-danger-bg: #fef2f2;
+  --tec-danger-border: #fecaca;
+  --tec-danger-hover: #fee2e2;
+  --tec-danger-hover-border: #fca5a5;
 }

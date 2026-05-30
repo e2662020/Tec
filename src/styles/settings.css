@@ -728,16 +728,16 @@
 
 /* Danger button */
 .settings-item.danger .settings-label > span:first-child {
-  color: #cf222e;
+  color: var(--tec-danger);
 }
 
 .settings-btn-danger {
   padding: 6px 14px;
   font-size: 12px;
   font-family: var(--tec-font-sans);
-  color: #cf222e;
-  background: #ffebe9;
-  border: 1px solid #ffdce0;
+  color: var(--tec-danger);
+  background: var(--tec-danger-bg);
+  border: 1px solid var(--tec-danger-border);
   border-radius: 6px;
   cursor: pointer;
   transition: all var(--tec-transition-fast);
@@ -745,8 +745,8 @@
 }
 
 .settings-btn-danger:hover {
-  background: #ffdce0;
-  border-color: #ffc1c7;
+  background: var(--tec-danger-hover);
+  border-color: var(--tec-danger-hover-border);
 }
 
 /* Scrollbar for settings content */
