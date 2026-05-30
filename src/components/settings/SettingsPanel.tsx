@@ -102,7 +102,6 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
           <div className="settings-content">
             {activeTab === 'general' && (
               <div className="settings-section">
-                <h3>通用设置</h3>
                 <div className="settings-item settings-item-vertical">
                   <label className="settings-label">
                     <span>打开文件方式</span>
@@ -193,7 +192,6 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
 
             {activeTab === 'editor' && (
               <div className="settings-section">
-                <h3>编辑器设置</h3>
                 <div className="settings-item">
                   <label className="settings-label">
                     <span>默认字体</span>
@@ -272,7 +270,6 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
 
             {activeTab === 'theme' && (
               <div className="settings-section">
-                <h3>主题设置</h3>
                 <div className="settings-theme-grid">
                   {BUILT_IN_THEMES.map((theme) => (
                     <button
@@ -300,7 +297,6 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
 
             {activeTab === 'plugins' && (
               <div className="settings-section">
-                <h3>插件管理</h3>
                 <div className="settings-plugins-list">
                   {plugins.map((plugin) => (
                     <div key={plugin.id} className={`settings-plugin-item ${plugin.enabled ? 'enabled' : ''}`}>
@@ -327,7 +323,6 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
 
             {activeTab === 'advanced' && (
               <div className="settings-section">
-                <h3>高级设置</h3>
                 <div className="settings-item">
                   <label className="settings-label">
                     <span>LaTeX 渲染引擎</span>
