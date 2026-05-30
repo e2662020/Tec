@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useFileOps } from '../../hooks/useFileOps';
 import { useEditorStore } from '../../store/editorStore';
 
@@ -12,6 +12,7 @@ interface MenuItem {
 
 export function MenuBar() {
   const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const { saveFile, openMdFile, openFolder } = useFileOps();
   const toggleSidebar = useEditorStore((s) => s.toggleSidebar);
   const toggleEditorMode = useEditorStore((s) => s.toggleEditorMode);
@@ -28,6 +29,19 @@ export function MenuBar() {
     },
     [],
   );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpenMenu(null);
+      }
+    };
+
+    if (openMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [openMenu]);
 
   const menus: Record<MenuId, MenuItem[]> = {
     file: [
@@ -54,13 +68,12 @@ export function MenuBar() {
   };
 
   return (
-    <nav className="menubar" onMouseLeave={() => setOpenMenu(null)}>
+    <nav className="menubar" ref={menuRef}>
       {(Object.keys(menus) as MenuId[]).map((menuId) => (
         <div key={menuId} className="menubar-dropdown">
           <button
             className={`menubar-item ${openMenu === menuId ? 'active' : ''}`}
             onClick={() => handleMenuClick(menuId)}
-            onMouseEnter={() => setOpenMenu(menuId)}
           >
             {menuId === 'file'
               ? '文件'
