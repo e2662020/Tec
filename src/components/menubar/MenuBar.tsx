@@ -11,7 +11,11 @@ interface MenuItem {
   icon?: string;
 }
 
-export function MenuBar() {
+interface MenuBarProps {
+  onAbout?: () => void;
+}
+
+export function MenuBar({ onAbout }: MenuBarProps) {
   const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { saveFile, openMdFile, openFolder } = useFileOps();
@@ -65,7 +69,7 @@ export function MenuBar() {
       },
     ],
     help: [
-      { label: '关于 Tec', icon: 'fa-info-circle', action: () => alert('Tec (Beta) - Typora 风格 Markdown 编辑器') },
+      { label: '关于 Tec', icon: 'fa-info-circle', action: () => onAbout?.() },
     ],
   };
 
