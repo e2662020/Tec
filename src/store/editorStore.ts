@@ -86,7 +86,7 @@ export const useEditorStore = create<EditorState>((set) => ({
   currentTheme: 'Tec Light',
   colorMap: { ...DEFAULT_COLOR_MAP },
 
-  openInNewWindow: false,
+  openInNewWindow: true,
   plugins: [
     {
       id: 'math',
