@@ -26,10 +26,10 @@ function FileTree() {
         </span>
         <div className="sidebar-toolbar-actions">
           <button onClick={openFolder} title="打开文件夹">
-            <i className="fas fa-folder-open"></i>
+            <i className="bi bi-folder2-open"></i>
           </button>
           <button onClick={refreshFolder} title="刷新">
-            <i className="fas fa-sync-alt"></i>
+            <i className="bi bi-arrow-repeat"></i>
           </button>
         </div>
       </div>
@@ -41,7 +41,7 @@ function FileTree() {
             onClick={() => handleFileClick(file)}
           >
             <span className="file-icon">
-              <i className={file.isMdx ? 'fas fa-box' : 'fas fa-file-alt'}></i>
+              <i className={file.isMdx ? 'bi bi-box' : 'bi bi-file-earmark-text'}></i>
             </span>
             <span className="file-name">{file.name}</span>
           </li>
@@ -139,13 +139,13 @@ export function Sidebar() {
           className={`sidebar-tab ${sidebarTab === 'files' ? 'active' : ''}`}
           onClick={() => setSidebarTab('files')}
         >
-          <i className="fas fa-folder"></i> 文件
+          <i className="bi bi-folder"></i> 文件
         </button>
         <button
           className={`sidebar-tab ${sidebarTab === 'outline' ? 'active' : ''}`}
           onClick={() => setSidebarTab('outline')}
         >
-          <i className="fas fa-list"></i> 大纲
+          <i className="bi bi-list-ul"></i> 大纲
         </button>
       </div>
       <div className="sidebar-content">

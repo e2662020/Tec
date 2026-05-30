@@ -60,20 +60,20 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
   if (!open) return null;
 
   const tabs: { id: TabId; label: string; icon: string }[] = [
-    { id: 'general', label: '通用', icon: 'fa-sliders-h' },
-    { id: 'editor', label: '编辑器', icon: 'fa-pen' },
-    { id: 'theme', label: '主题', icon: 'fa-palette' },
-    { id: 'plugins', label: '插件', icon: 'fa-puzzle-piece' },
-    { id: 'advanced', label: '高级', icon: 'fa-cog' },
+    { id: 'general', label: '通用', icon: 'bi-sliders' },
+    { id: 'editor', label: '编辑器', icon: 'bi-pen' },
+    { id: 'theme', label: '主题', icon: 'bi-palette' },
+    { id: 'plugins', label: '插件', icon: 'bi-puzzle' },
+    { id: 'advanced', label: '高级', icon: 'bi-gear' },
   ];
 
   return (
     <div className="settings-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="settings-panel">
         <div className="settings-header">
-          <h2 className="settings-title"><i className="fas fa-cog"></i> 设置</h2>
+          <h2 className="settings-title"><i className="bi bi-gear"></i> 设置</h2>
           <button className="settings-close" onClick={onClose}>
-            <i className="fas fa-times"></i>
+            <i className="bi bi-x"></i>
           </button>
         </div>
 
@@ -85,7 +85,7 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                 className={`settings-tab ${activeTab === tab.id ? 'active' : ''}`}
                 onClick={() => setActiveTab(tab.id)}
               >
-                <i className={`fas ${tab.icon}`}></i>
+                <i className={`bi ${tab.icon}`}></i>
                 {tab.label}
               </button>
             ))}

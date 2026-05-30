@@ -10,14 +10,14 @@ function SimilarGroupCard({ group }: { group: SimilarGroup }) {
     <div className="gallery-group">
       <div className="gallery-group-header">
         <span className="gallery-group-title">
-          <i className="fas fa-images"></i> 相似组 #{group.groupId} ({group.images.length}张)
+          <i className="bi bi-images"></i> 相似组 #{group.groupId} ({group.images.length}张)
         </span>
         <button
           className="gallery-group-merge"
           onClick={() => mergeSimilarGroup(group.groupId, primary.hash)}
           title="合并为该组主图"
         >
-          <i className="fas fa-compress-alt"></i> 合并
+          <i className="bi bi-arrows-angle-contract"></i> 合并
         </button>
       </div>
       <div className="gallery-group-images">
@@ -28,7 +28,7 @@ function SimilarGroupCard({ group }: { group: SimilarGroup }) {
             title={img.name}
           >
             <div className="gallery-thumb-preview">
-              {img.isPrimary && <span className="gallery-thumb-star"><i className="fas fa-star"></i></span>}
+              {img.isPrimary && <span className="gallery-thumb-star"><i className="bi bi-star-fill"></i></span>}
               <span className="gallery-thumb-name">{img.name.slice(0, 20)}</span>
             </div>
             <div className="gallery-thumb-info">
@@ -45,7 +45,7 @@ function ImageThumb({ image, isGrid }: { image: ImageMeta; isGrid: boolean }) {
   return (
     <div className={`gallery-thumb ${isGrid ? 'grid' : 'list'}`}>
       <div className="gallery-thumb-preview">
-        <span className="gallery-thumb-name"><i className="fas fa-image"></i> {image.hash.slice(0, 12)}</span>
+        <span className="gallery-thumb-name"><i className="bi bi-image"></i> {image.hash.slice(0, 12)}</span>
       </div>
       <div className="gallery-thumb-info">
         {image.width}×{image.height} {image.format}
@@ -88,20 +88,20 @@ export function ImagePanel() {
             className={view === 'grid' ? 'active' : ''}
             onClick={() => setView('grid')}
           >
-            <i className="fas fa-th"></i> 网格
+            <i className="bi bi-grid"></i> 网格
           </button>
           <button
             className={view === 'list' ? 'active' : ''}
             onClick={() => setView('list')}
           >
-            <i className="fas fa-list"></i> 列表
+            <i className="bi bi-list-ul"></i> 列表
           </button>
           <button
             onClick={manualDetect}
             disabled={isDetecting}
             title="手动检测相似图片 (dHash + SSIM)"
           >
-            {isDetecting ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-search"></i>} 检测
+            {isDetecting ? <i className="bi bi-arrow-clockwise bi-spin"></i> : <i className="bi bi-search"></i>} 检测
           </button>
         </div>
       </div>
@@ -123,13 +123,13 @@ export function ImagePanel() {
                 className="gallery-image-remove"
                 onClick={() => removeImage(img.hash)}
               >
-                <i className="fas fa-times"></i>
+                <i className="bi bi-x"></i>
               </button>
             </div>
           ))}
           {filteredImages.length === 0 && (
             <div className="gallery-empty">
-              <i className="fas fa-images" style={{ fontSize: 32, marginBottom: 8, opacity: 0.3 }}></i>
+              <i className="bi bi-images" style={{ fontSize: 32, marginBottom: 8, opacity: 0.3 }}></i>
               <br />
               {images.length === 0
                 ? '拖入图片到编辑区以添加'

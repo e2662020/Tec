@@ -88,7 +88,7 @@ function App() {
       >
         <div style={{ textAlign: 'center', padding: '8px 0' }}>
           <div style={{ fontSize: 28, marginBottom: 12 }}>
-            <i className="fas fa-info-circle" style={{ color: 'var(--tec-accent)' }}></i>
+            <i className="bi bi-info-circle" style={{ color: 'var(--tec-accent)' }}></i>
           </div>
           <h2 style={{ fontSize: 18, margin: '0 0 8px', color: 'var(--tec-text-primary)' }}>
             Tec (Beta)

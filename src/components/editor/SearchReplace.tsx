@@ -67,7 +67,7 @@ export function SearchReplace() {
   return (
     <div className="search-replace-dialog">
       <div className="search-replace-row">
-        <i className="fas fa-search" style={{ color: 'var(--tec-text-tertiary)' }}></i>
+        <i className="bi bi-search" style={{ color: 'var(--tec-text-tertiary)' }}></i>
         <input
           type="text"
           placeholder="搜索..."
@@ -80,14 +80,14 @@ export function SearchReplace() {
         </span>
       </div>
       <div className="search-replace-row">
-        <i className="fas fa-exchange-alt" style={{ color: 'var(--tec-text-tertiary)' }}></i>
+        <i className="bi bi-arrow-left-right" style={{ color: 'var(--tec-text-tertiary)' }}></i>
         <input
           type="text"
           placeholder="替换为..."
           value={replaceTerm}
           onChange={(e) => setReplaceTerm(e.target.value)}
         />
-        <button onClick={replaceAll}><i className="fas fa-retweet"></i> 全部替换</button>
+        <button onClick={replaceAll}><i className="bi bi-arrow-repeat"></i> 全部替换</button>
       </div>
       <div className="search-replace-options">
         <label>
@@ -98,7 +98,7 @@ export function SearchReplace() {
           />
           正则表达式
         </label>
-        <button onClick={() => setVisible(false)}><i className="fas fa-times"></i> 关闭</button>
+        <button onClick={() => setVisible(false)}><i className="bi bi-x"></i> 关闭</button>
       </div>
     </div>
   );

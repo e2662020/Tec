@@ -51,27 +51,27 @@ export function MenuBar({ onAbout, onSettings }: MenuBarProps) {
 
   const menus: Record<MenuId, MenuItem[]> = {
     file: [
-      { label: '新建', shortcut: 'Ctrl+N', icon: 'fa-file', action: () => useEditorStore.getState().closeFile() },
-      { label: '打开文件', shortcut: 'Ctrl+O', icon: 'fa-folder-open', action: () => openMdFile() },
-      { label: '打开文件夹', icon: 'fa-folder', action: () => openFolder() },
-      { label: '保存', shortcut: 'Ctrl+S', icon: 'fa-save', action: () => saveFile() },
+      { label: '新建', shortcut: 'Ctrl+N', icon: 'bi-file-earmark', action: () => useEditorStore.getState().closeFile() },
+      { label: '打开文件', shortcut: 'Ctrl+O', icon: 'bi-folder2-open', action: () => openMdFile() },
+      { label: '打开文件夹', icon: 'bi-folder', action: () => openFolder() },
+      { label: '保存', shortcut: 'Ctrl+S', icon: 'bi-floppy', action: () => saveFile() },
     ],
     edit: [
-      { label: '撤销', shortcut: 'Ctrl+Z', icon: 'fa-undo' },
-      { label: '重做', shortcut: 'Ctrl+Y', icon: 'fa-redo' },
-      { label: '切换源码模式', shortcut: 'Ctrl+/', icon: 'fa-code', action: () => toggleEditorMode() },
+      { label: '撤销', shortcut: 'Ctrl+Z', icon: 'bi-arrow-counterclockwise' },
+      { label: '重做', shortcut: 'Ctrl+Y', icon: 'bi-arrow-clockwise' },
+      { label: '切换源码模式', shortcut: 'Ctrl+/', icon: 'bi-code-slash', action: () => toggleEditorMode() },
     ],
     view: [
       {
         label: sidebarVisible ? '隐藏侧边栏' : '显示侧边栏',
         shortcut: 'Ctrl+Shift+L',
-        icon: sidebarVisible ? 'fa-eye-slash' : 'fa-eye',
+        icon: sidebarVisible ? 'bi-eye-slash' : 'bi-eye',
         action: () => toggleSidebar(),
       },
     ],
     help: [
-      { label: '设置', shortcut: 'Ctrl+,', icon: 'fa-cog', action: () => onSettings?.() },
-      { label: '关于 Tec', icon: 'fa-info-circle', action: () => onAbout?.() },
+      { label: '设置', shortcut: 'Ctrl+,', icon: 'bi-gear', action: () => onSettings?.() },
+      { label: '关于 Tec', icon: 'bi-info-circle', action: () => onAbout?.() },
     ],
   };
 
@@ -101,7 +101,7 @@ export function MenuBar({ onAbout, onSettings }: MenuBarProps) {
                   onClick={() => handleAction(item.action)}
                 >
                   <span>
-                    {item.icon && <i className={`fas ${item.icon}`} style={{ marginRight: 8, width: 16, textAlign: 'center' }}></i>}
+                    {item.icon && <i className={`bi ${item.icon}`} style={{ marginRight: 8, width: 16, textAlign: 'center' }}></i>}
                     {item.label}
                   </span>
                   {item.shortcut && (
