@@ -29,8 +29,15 @@ if errorlevel 1 (
     exit /b 1
 )
 
+:: 生成图标
+echo [2/4] 生成应用图标...
+node scripts/generate-icons.cjs
+if errorlevel 1 (
+    echo [警告] 图标生成失败，使用默认图标
+)
+
 :: 构建前端
-echo [2/4] 构建前端资源...
+echo [3/5] 构建前端资源...
 call npm run build
 if errorlevel 1 (
     echo [错误] 前端构建失败
@@ -38,7 +45,7 @@ if errorlevel 1 (
 )
 
 :: 安装 Tauri CLI（如未安装）
-echo [3/4] 检查 Tauri CLI...
+echo [4/5] 检查 Tauri CLI...
 cargo tauri --version >nul 2>nul
 if errorlevel 1 (
     echo 正在安装 Tauri CLI...
@@ -46,7 +53,7 @@ if errorlevel 1 (
 )
 
 :: 构建 Tauri 应用
-echo [4/4] 编译 Windows 可执行文件...
+echo [5/5] 编译 Windows 可执行文件...
 cd src-tauri
 cargo tauri build
 if errorlevel 1 (
