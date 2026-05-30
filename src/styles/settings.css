@@ -66,15 +66,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   background: none;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   color: var(--tec-text-tertiary);
   cursor: pointer;
   transition: all var(--tec-transition-fast);
+}
+
+.settings-close .bi {
+  font-size: 22px;
 }
 
 .settings-close:hover {
