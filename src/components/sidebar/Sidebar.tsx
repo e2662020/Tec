@@ -26,14 +26,10 @@ function FileTree() {
         </span>
         <div className="sidebar-toolbar-actions">
           <button onClick={openFolder} title="打开文件夹">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M1.5 3.5a.5.5 0 01.5-.5h4.5l1 1H14.5a.5.5 0 01.5.5v8a.5.5 0 01-.5.5H2a.5.5 0 01-.5-.5V3.5z" />
-            </svg>
+            <i className="bi bi-folder2-open"></i>
           </button>
           <button onClick={refreshFolder} title="刷新">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M11.534 7.5A4.002 4.002 0 018 5c-1.36 0-2.566.7-3.237 1.77l1.53.73H2V3.3l1.38.82A5.002 5.002 0 0113 8h-1.466zM4.466 8.5A4.002 4.002 0 008 11c1.36 0 2.566-.7 3.237-1.77l-1.53-.73H14V12.7l-1.38-.82A5.002 5.002 0 013 8h1.466z" />
-            </svg>
+            <i className="bi bi-arrow-repeat"></i>
           </button>
         </div>
       </div>
@@ -45,7 +41,7 @@ function FileTree() {
             onClick={() => handleFileClick(file)}
           >
             <span className="file-icon">
-              {file.isMdx ? '📦' : '📄'}
+              <i className={file.isMdx ? 'bi bi-box-seam' : 'bi bi-file-earmark-text'}></i>
             </span>
             <span className="file-name">{file.name}</span>
           </li>
@@ -134,22 +130,23 @@ export function Sidebar() {
     [sidebarWidth, setSidebarWidth],
   );
 
-  if (!sidebarVisible) return null;
-
   return (
-    <aside className="sidebar" style={{ width: sidebarWidth }}>
+    <aside
+      className={`sidebar ${sidebarVisible ? 'sidebar-visible' : 'sidebar-hidden'}`}
+      style={{ width: sidebarVisible ? sidebarWidth : 0 }}
+    >
       <div className="sidebar-tabs">
         <button
           className={`sidebar-tab ${sidebarTab === 'files' ? 'active' : ''}`}
           onClick={() => setSidebarTab('files')}
         >
-          文件
+          <i className="bi bi-folder"></i> 文件
         </button>
         <button
           className={`sidebar-tab ${sidebarTab === 'outline' ? 'active' : ''}`}
           onClick={() => setSidebarTab('outline')}
         >
-          大纲
+          <i className="bi bi-list-ul"></i> 大纲
         </button>
       </div>
       <div className="sidebar-content">

@@ -44,8 +44,8 @@ fn compute_ssim_impl(a: &image::GrayImage, b: &image::GrayImage) -> f64 {
         return 0.0;
     }
 
-    let c1: f64 = (0.01 * 255.0).powi(2);
-    let c2: f64 = (0.03 * 255.0).powi(2);
+    let c1: f64 = (0.01f64 * 255.0f64).powi(2);
+    let c2: f64 = (0.03f64 * 255.0f64).powi(2);
 
     let mut mean_a = 0.0f64;
     let mut mean_b = 0.0f64;

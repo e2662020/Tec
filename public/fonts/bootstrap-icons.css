@@ -1,0 +1,85 @@
+@font-face {
+  font-family: 'bootstrap-icons';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/bootstrap-icons.woff2') format('woff2');
+}
+
+.bi {
+  font-family: 'bootstrap-icons' !important;
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  display: inline-block;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* File & Folder */
+.bi-file-earmark::before { content: '\f392'; }
+.bi-file-earmark-text::before { content: '\f39a'; }
+.bi-file-earmark-plus::before { content: '\f37d'; }
+.bi-folder::before { content: '\f3d7'; }
+.bi-folder2-open::before { content: '\f3e2'; }
+.bi-floppy::before { content: '\f7d8'; }
+.bi-save::before { content: '\f525'; }
+
+/* Edit */
+.bi-arrow-counterclockwise::before { content: '\f117'; }
+.bi-arrow-clockwise::before { content: '\f116'; }
+.bi-code-slash::before { content: '\f2c6'; }
+
+/* View */
+.bi-eye::before { content: '\f341'; }
+.bi-eye-slash::before { content: '\f340'; }
+
+/* Info & Help */
+.bi-info-circle::before { content: '\f431'; }
+.bi-gear::before { content: '\f3e5'; }
+.bi-x::before { content: '\f62a'; }
+
+/* Navigation */
+.bi-list-ul::before { content: '\f478'; }
+.bi-grid::before { content: '\f3fc'; }
+.bi-search::before { content: '\f52a'; }
+
+/* Media */
+.bi-image::before { content: '\f42a'; }
+.bi-images::before { content: '\f42b'; }
+.bi-star-fill::before { content: '\f586'; }
+
+/* Actions */
+.bi-arrow-left-right::before { content: '\f12b'; }
+.bi-arrows-angle-contract::before { content: '\f149'; }
+.bi-arrow-repeat::before { content: '\f130'; }
+
+/* Settings Tabs */
+.bi-sliders::before { content: '\f56b'; }
+.bi-pen::before { content: '\f4c8'; }
+.bi-palette::before { content: '\f4b1'; }
+.bi-puzzle::before { content: '\f503'; }
+
+/* Window & Tab */
+.bi-window::before { content: '\f60d'; }
+.bi-window-stack::before { content: '\f60e'; }
+.bi-window-desktop::before { content: '\f60c'; }
+
+/* Box/Package */
+.bi-box::before { content: '\f1c8'; }
+.bi-box-seam::before { content: '\f1c7'; }
+
+/* Chevron */
+.bi-chevron-down::before { content: '\f282'; }
+
+/* Spin animation */
+.bi-spin {
+  animation: bi-spin 2s infinite linear;
+}
+
+@keyframes bi-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

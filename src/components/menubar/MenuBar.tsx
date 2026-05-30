@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useFileOps } from '../../hooks/useFileOps';
 import { useEditorStore } from '../../store/editorStore';
 
@@ -8,10 +8,17 @@ interface MenuItem {
   label: string;
   shortcut?: string;
   action?: () => void;
+  icon?: string;
 }
 
-export function MenuBar() {
+interface MenuBarProps {
+  onAbout?: () => void;
+  onSettings?: () => void;
+}
+
+export function MenuBar({ onAbout, onSettings }: MenuBarProps) {
   const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const { saveFile, openMdFile, openFolder } = useFileOps();
   const toggleSidebar = useEditorStore((s) => s.toggleSidebar);
   const toggleEditorMode = useEditorStore((s) => s.toggleEditorMode);
@@ -29,46 +36,61 @@ export function MenuBar() {
     [],
   );
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setOpenMenu(null);
+      }
+    };
+
+    if (openMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [openMenu]);
+
   const menus: Record<MenuId, MenuItem[]> = {
     file: [
-      { label: '新建', shortcut: 'Ctrl+N', action: () => useEditorStore.getState().closeFile() },
-      { label: '打开文件', shortcut: 'Ctrl+O', action: () => openMdFile() },
-      { label: '打开文件夹', action: () => openFolder() },
-      { label: '保存', shortcut: 'Ctrl+S', action: () => saveFile() },
+      { label: '新建', shortcut: 'Ctrl+N', icon: 'bi-file-earmark-plus', action: () => useEditorStore.getState().closeFile() },
+      { label: '打开文件', shortcut: 'Ctrl+O', icon: 'bi-file-earmark', action: () => openMdFile() },
+      { label: '打开文件夹', icon: 'bi-folder', action: () => openFolder() },
+      { label: '保存', shortcut: 'Ctrl+S', icon: 'bi-floppy', action: () => saveFile() },
     ],
     edit: [
-      { label: '撤销', shortcut: 'Ctrl+Z' },
-      { label: '重做', shortcut: 'Ctrl+Y' },
-      { label: '切换源码模式', shortcut: 'Ctrl+/', action: () => toggleEditorMode() },
+      { label: '撤销', shortcut: 'Ctrl+Z', icon: 'bi-arrow-counterclockwise' },
+      { label: '重做', shortcut: 'Ctrl+Y', icon: 'bi-arrow-clockwise' },
+      { label: '切换源码模式', shortcut: 'Ctrl+/', icon: 'bi-code-slash', action: () => toggleEditorMode() },
     ],
     view: [
       {
         label: sidebarVisible ? '隐藏侧边栏' : '显示侧边栏',
         shortcut: 'Ctrl+Shift+L',
+        icon: sidebarVisible ? 'bi-eye-slash' : 'bi-eye',
         action: () => toggleSidebar(),
       },
     ],
     help: [
-      { label: '关于 Tec', action: () => alert('Tec (Beta) - Typora 风格 Markdown 编辑器') },
+      { label: '设置', shortcut: 'Ctrl+,', icon: 'bi-gear', action: () => onSettings?.() },
+      { label: '关于 Tec', icon: 'bi-info-circle', action: () => onAbout?.() },
     ],
   };
 
+  const menuLabels: Record<MenuId, string> = {
+    file: '文件',
+    edit: '编辑',
+    view: '视图',
+    help: '帮助',
+  };
+
   return (
-    <nav className="menubar" onMouseLeave={() => setOpenMenu(null)}>
+    <nav className="menubar" ref={menuRef}>
       {(Object.keys(menus) as MenuId[]).map((menuId) => (
         <div key={menuId} className="menubar-dropdown">
           <button
             className={`menubar-item ${openMenu === menuId ? 'active' : ''}`}
             onClick={() => handleMenuClick(menuId)}
-            onMouseEnter={() => setOpenMenu(menuId)}
           >
-            {menuId === 'file'
-              ? '文件'
-              : menuId === 'edit'
-                ? '编辑'
-                : menuId === 'view'
-                  ? '视图'
-                  : '帮助'}
+            {menuLabels[menuId]}
           </button>
           {openMenu === menuId && (
             <div className="menubar-dropdown-content">
@@ -78,7 +100,10 @@ export function MenuBar() {
                   className="menubar-dropdown-item"
                   onClick={() => handleAction(item.action)}
                 >
-                  <span>{item.label}</span>
+                  <span className="menubar-item-label">
+                    {item.icon && <i className={`bi ${item.icon}`}></i>}
+                    {item.label}
+                  </span>
                   {item.shortcut && (
                     <span className="menubar-shortcut">{item.shortcut}</span>
                   )}

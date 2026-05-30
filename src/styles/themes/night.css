@@ -20,4 +20,9 @@
   --tec-statusbar-bg: #12122a;
   --tec-menubar-bg: #1a1a2e;
   --tec-menubar-hover: #222244;
+  --tec-danger: #ff6b6b;
+  --tec-danger-bg: rgba(255, 107, 107, 0.15);
+  --tec-danger-border: rgba(255, 107, 107, 0.3);
+  --tec-danger-hover: rgba(255, 107, 107, 0.25);
+  --tec-danger-hover-border: rgba(255, 107, 107, 0.5);
 }

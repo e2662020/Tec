@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+    <linearGradient id="tGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#38bdf8"/>
+      <stop offset="100%" style="stop-color:#0ea5e9"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect x="32" y="32" width="448" height="448" rx="96" ry="96"
+        fill="url(#bgGrad)" filter="url(#shadow)"/>
+
+  <!-- Inner subtle border/glow -->
+  <rect x="48" y="48" width="416" height="416" rx="84" ry="84"
+        fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.15"/>
+
+  <!-- Letter T -->
+  <g filter="url(#glow)">
+    <!-- T horizontal bar -->
+    <rect x="136" y="156" width="240" height="56" rx="12" ry="12" fill="url(#tGrad)"/>
+    <!-- T vertical bar -->
+    <rect x="228" y="156" width="56" height="200" rx="12" ry="12" fill="url(#tGrad)"/>
+  </g>
+
+  <!-- Subtle highlight on top edge -->
+  <path d="M 128 80 Q 256 48 384 80" stroke="#38bdf8" stroke-width="3" fill="none" opacity="0.3" stroke-linecap="round"/>
+</svg>

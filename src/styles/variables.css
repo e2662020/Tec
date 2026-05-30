@@ -52,6 +52,13 @@
   --tec-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
   --tec-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 
+  /* Danger */
+  --tec-danger: #cf222e;
+  --tec-danger-bg: #ffebe9;
+  --tec-danger-border: #ffdce0;
+  --tec-danger-hover: #ffdce0;
+  --tec-danger-hover-border: #ffc1c7;
+
   /* Transitions */
   --tec-transition-fast: 120ms ease;
   --tec-transition-normal: 200ms ease;
@@ -84,4 +91,10 @@
   --tec-statusbar-bg: #181825;
   --tec-menubar-bg: #1e1e2e;
   --tec-menubar-hover: #313244;
+
+  --tec-danger: #ff6b6b;
+  --tec-danger-bg: rgba(255, 107, 107, 0.15);
+  --tec-danger-border: rgba(255, 107, 107, 0.3);
+  --tec-danger-hover: rgba(255, 107, 107, 0.25);
+  --tec-danger-hover-border: rgba(255, 107, 107, 0.5);
 }
