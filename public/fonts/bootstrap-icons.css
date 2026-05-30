@@ -19,13 +19,13 @@
 }
 
 /* File & Folder */
-.bi-file-earmark::before { content: '\f38e'; }
+.bi-file-earmark::before { content: '\f392'; }
 .bi-file-earmark-text::before { content: '\f39a'; }
-.bi-file-earmark-plus::before { content: '\f392'; }
+.bi-file-earmark-plus::before { content: '\f37d'; }
 .bi-folder::before { content: '\f3d7'; }
 .bi-folder2-open::before { content: '\f3e2'; }
-.bi-floppy::before { content: '\f3e3'; }
-.bi-save::before { content: '\f524'; }
+.bi-floppy::before { content: '\f7d8'; }
+.bi-save::before { content: '\f525'; }
 
 /* Edit */
 .bi-arrow-counterclockwise::before { content: '\f117'; }
@@ -43,7 +43,7 @@
 
 /* Navigation */
 .bi-list-ul::before { content: '\f478'; }
-.bi-grid::before { content: '\f3fd'; }
+.bi-grid::before { content: '\f3fc'; }
 .bi-search::before { content: '\f52a'; }
 
 /* Media */
@@ -57,10 +57,10 @@
 .bi-arrow-repeat::before { content: '\f130'; }
 
 /* Settings Tabs */
-.bi-sliders::before { content: '\f583'; }
-.bi-pen::before { content: '\f4f3'; }
-.bi-palette::before { content: '\f4b3'; }
-.bi-puzzle::before { content: '\f4d4'; }
+.bi-sliders::before { content: '\f56b'; }
+.bi-pen::before { content: '\f4c8'; }
+.bi-palette::before { content: '\f4b1'; }
+.bi-puzzle::before { content: '\f503'; }
 
 /* Window & Tab */
 .bi-window::before { content: '\f60d'; }
