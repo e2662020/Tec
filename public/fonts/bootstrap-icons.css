@@ -18,35 +18,62 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* File & Folder */
 .bi-file-earmark::before { content: '\f38e'; }
-.bi-folder2-open::before { content: '\f3c3'; }
-.bi-folder::before { content: '\f3c0'; }
-.bi-floppy::before { content: '\f3c4'; }
-.bi-arrow-counterclockwise::before { content: '\f13a'; }
-.bi-arrow-clockwise::before { content: '\f130'; }
-.bi-code-slash::before { content: '\f2c6'; }
-.bi-eye-slash::before { content: '\f3a5'; }
-.bi-eye::before { content: '\f3a4'; }
-.bi-info-circle::before { content: '\f431'; }
-.bi-arrow-repeat::before { content: '\f148'; }
-.bi-box::before { content: '\f1c6'; }
 .bi-file-earmark-text::before { content: '\f39a'; }
+.bi-folder::before { content: '\f3d7'; }
+.bi-folder2-open::before { content: '\f3e2'; }
+.bi-floppy::before { content: '\f3e3'; }
+
+/* Edit */
+.bi-arrow-counterclockwise::before { content: '\f117'; }
+.bi-arrow-clockwise::before { content: '\f116'; }
+.bi-code-slash::before { content: '\f2c6'; }
+
+/* View */
+.bi-eye::before { content: '\f341'; }
+.bi-eye-slash::before { content: '\f340'; }
+
+/* Info & Help */
+.bi-info-circle::before { content: '\f431'; }
+.bi-gear::before { content: '\f3e5'; }
+.bi-x::before { content: '\f62a'; }
+
+/* Navigation */
 .bi-list-ul::before { content: '\f478'; }
-.bi-images::before { content: '\f42b'; }
-.bi-arrows-angle-contract::before { content: '\f15a'; }
-.bi-star-fill::before { content: '\f586'; }
-.bi-image::before { content: '\f42a'; }
 .bi-grid::before { content: '\f3fd'; }
 .bi-search::before { content: '\f52a'; }
-.bi-arrow-clockwise::before { content: '\f130'; }
-.bi-x::before { content: '\f62a'; }
-.bi-arrow-left-right::before { content: '\f141'; }
-.bi-arrow-repeat::before { content: '\f148'; }
+
+/* Media */
+.bi-image::before { content: '\f42a'; }
+.bi-images::before { content: '\f42b'; }
+.bi-star-fill::before { content: '\f586'; }
+
+/* Actions */
+.bi-arrow-left-right::before { content: '\f12b'; }
+.bi-arrows-angle-contract::before { content: '\f149'; }
+.bi-arrow-repeat::before { content: '\f130'; }
+
+/* Settings Tabs */
 .bi-sliders::before { content: '\f583'; }
 .bi-pen::before { content: '\f4f3'; }
 .bi-palette::before { content: '\f4b3'; }
 .bi-puzzle::before { content: '\f4d4'; }
-.bi-gear::before { content: '\f3e5'; }
-.bi-folder-open::before { content: '\f3c1'; }
+
+/* Window & Tab */
 .bi-window::before { content: '\f60d'; }
 .bi-window-stack::before { content: '\f60e'; }
+.bi-window-desktop::before { content: '\f60c'; }
+
+/* Box/Package */
+.bi-box::before { content: '\f1c8'; }
+
+/* Spin animation */
+.bi-spin {
+  animation: bi-spin 2s infinite linear;
+}
+
+@keyframes bi-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
