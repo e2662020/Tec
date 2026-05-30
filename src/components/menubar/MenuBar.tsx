@@ -52,7 +52,7 @@ export function MenuBar({ onAbout, onSettings }: MenuBarProps) {
   const menus: Record<MenuId, MenuItem[]> = {
     file: [
       { label: '新建', shortcut: 'Ctrl+N', icon: 'bi-file-earmark', action: () => useEditorStore.getState().closeFile() },
-      { label: '打开文件', shortcut: 'Ctrl+O', icon: 'bi-folder2-open', action: () => openMdFile() },
+      { label: '打开文件', shortcut: 'Ctrl+O', icon: 'bi-file-earmark-plus', action: () => openMdFile() },
       { label: '打开文件夹', icon: 'bi-folder', action: () => openFolder() },
       { label: '保存', shortcut: 'Ctrl+S', icon: 'bi-floppy', action: () => saveFile() },
     ],
