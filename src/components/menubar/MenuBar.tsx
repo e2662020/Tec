@@ -8,6 +8,7 @@ interface MenuItem {
   label: string;
   shortcut?: string;
   action?: () => void;
+  icon?: string;
 }
 
 export function MenuBar() {
@@ -45,26 +46,34 @@ export function MenuBar() {
 
   const menus: Record<MenuId, MenuItem[]> = {
     file: [
-      { label: '新建', shortcut: 'Ctrl+N', action: () => useEditorStore.getState().closeFile() },
-      { label: '打开文件', shortcut: 'Ctrl+O', action: () => openMdFile() },
-      { label: '打开文件夹', action: () => openFolder() },
-      { label: '保存', shortcut: 'Ctrl+S', action: () => saveFile() },
+      { label: '新建', shortcut: 'Ctrl+N', icon: 'fa-file', action: () => useEditorStore.getState().closeFile() },
+      { label: '打开文件', shortcut: 'Ctrl+O', icon: 'fa-folder-open', action: () => openMdFile() },
+      { label: '打开文件夹', icon: 'fa-folder', action: () => openFolder() },
+      { label: '保存', shortcut: 'Ctrl+S', icon: 'fa-save', action: () => saveFile() },
     ],
     edit: [
-      { label: '撤销', shortcut: 'Ctrl+Z' },
-      { label: '重做', shortcut: 'Ctrl+Y' },
-      { label: '切换源码模式', shortcut: 'Ctrl+/', action: () => toggleEditorMode() },
+      { label: '撤销', shortcut: 'Ctrl+Z', icon: 'fa-undo' },
+      { label: '重做', shortcut: 'Ctrl+Y', icon: 'fa-redo' },
+      { label: '切换源码模式', shortcut: 'Ctrl+/', icon: 'fa-code', action: () => toggleEditorMode() },
     ],
     view: [
       {
         label: sidebarVisible ? '隐藏侧边栏' : '显示侧边栏',
         shortcut: 'Ctrl+Shift+L',
+        icon: sidebarVisible ? 'fa-eye-slash' : 'fa-eye',
         action: () => toggleSidebar(),
       },
     ],
     help: [
-      { label: '关于 Tec', action: () => alert('Tec (Beta) - Typora 风格 Markdown 编辑器') },
+      { label: '关于 Tec', icon: 'fa-info-circle', action: () => alert('Tec (Beta) - Typora 风格 Markdown 编辑器') },
     ],
+  };
+
+  const menuLabels: Record<MenuId, string> = {
+    file: '文件',
+    edit: '编辑',
+    view: '视图',
+    help: '帮助',
   };
 
   return (
@@ -75,13 +84,7 @@ export function MenuBar() {
             className={`menubar-item ${openMenu === menuId ? 'active' : ''}`}
             onClick={() => handleMenuClick(menuId)}
           >
-            {menuId === 'file'
-              ? '文件'
-              : menuId === 'edit'
-                ? '编辑'
-                : menuId === 'view'
-                  ? '视图'
-                  : '帮助'}
+            {menuLabels[menuId]}
           </button>
           {openMenu === menuId && (
             <div className="menubar-dropdown-content">
@@ -91,7 +94,10 @@ export function MenuBar() {
                   className="menubar-dropdown-item"
                   onClick={() => handleAction(item.action)}
                 >
-                  <span>{item.label}</span>
+                  <span>
+                    {item.icon && <i className={`fas ${item.icon}`} style={{ marginRight: 8, width: 16, textAlign: 'center' }}></i>}
+                    {item.label}
+                  </span>
                   {item.shortcut && (
                     <span className="menubar-shortcut">{item.shortcut}</span>
                   )}

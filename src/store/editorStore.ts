@@ -60,7 +60,7 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   editorMode: 'wysiwyg',
 
-  sidebarVisible: true,
+  sidebarVisible: false,
   sidebarTab: 'files',
   sidebarWidth: 240,
   outline: [],
