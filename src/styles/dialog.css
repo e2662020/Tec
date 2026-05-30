@@ -59,15 +59,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   background: none;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--tec-text-tertiary);
   cursor: pointer;
   transition: all var(--tec-transition-fast);
+}
+
+.dialog-close .bi {
+  font-size: 20px;
 }
 
 .dialog-close:hover {

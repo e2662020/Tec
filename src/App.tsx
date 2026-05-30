@@ -87,8 +87,8 @@ function App() {
         actions={[{ label: '确定', primary: true, onClick: () => setAboutOpen(false) }]}
       >
         <div style={{ textAlign: 'center', padding: '8px 0' }}>
-          <div style={{ width: 64, height: 64, margin: '0 auto 16px', borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
-            <img src="/tec-icon.svg" alt="Tec" style={{ width: '100%', height: '100%', display: 'block' }} />
+          <div style={{ width: 80, height: 80, margin: '0 auto 16px', borderRadius: 20, overflow: 'hidden', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
+            <img src="./tec-icon.svg" alt="Tec" style={{ width: '100%', height: '100%', display: 'block' }} />
           </div>
           <h2 style={{ fontSize: 18, margin: '0 0 8px', color: 'var(--tec-text-primary)' }}>
             Tec (Beta)
