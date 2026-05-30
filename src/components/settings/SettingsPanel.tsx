@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useEditorStore } from '../../store/editorStore';
+import { Dropdown } from '../common/Dropdown';
 
 const BUILT_IN_THEMES = [
   { id: 'Tec Light', name: 'Tec Light', type: '浅色' },
@@ -47,6 +48,13 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
   const setOpenInNewWindow = useEditorStore((s) => s.setOpenInNewWindow);
   const plugins = useEditorStore((s) => s.plugins);
   const togglePlugin = useEditorStore((s) => s.togglePlugin);
+
+  const [autoSaveInterval, setAutoSaveInterval] = useState('30');
+  const [fontFamily, setFontFamily] = useState('system');
+  const [lineHeight, setLineHeight] = useState('normal');
+  const [contentWidth, setContentWidth] = useState('medium');
+  const [latexEngine, setLatexEngine] = useState('katex');
+  const [codeTheme, setCodeTheme] = useState('github');
 
   const handleThemeChange = useCallback(
     (themeId: string) => {
@@ -149,12 +157,16 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                     <span>自动保存间隔</span>
                     <span className="settings-desc">自动保存的时间间隔（秒）</span>
                   </label>
-                  <select className="settings-select" defaultValue="30">
-                    <option value="10">10 秒</option>
-                    <option value="30">30 秒</option>
-                    <option value="60">1 分钟</option>
-                    <option value="300">5 分钟</option>
-                  </select>
+                  <Dropdown
+                    options={[
+                      { value: '10', label: '10 秒' },
+                      { value: '30', label: '30 秒' },
+                      { value: '60', label: '1 分钟' },
+                      { value: '300', label: '5 分钟' },
+                    ]}
+                    value={autoSaveInterval}
+                    onChange={setAutoSaveInterval}
+                  />
                 </div>
                 <div className="settings-item">
                   <label className="settings-label">
@@ -187,33 +199,33 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                     <span>默认字体</span>
                     <span className="settings-desc">编辑器的默认字体</span>
                   </label>
-                  <select className="settings-select" defaultValue="system">
-                    {FONT_OPTIONS.map((font) => (
-                      <option key={font.id} value={font.id}>{font.name}</option>
-                    ))}
-                  </select>
+                  <Dropdown
+                    options={FONT_OPTIONS.map((f) => ({ value: f.id, label: f.name }))}
+                    value={fontFamily}
+                    onChange={setFontFamily}
+                  />
                 </div>
                 <div className="settings-item">
                   <label className="settings-label">
                     <span>行高</span>
                     <span className="settings-desc">正文的行高倍数</span>
                   </label>
-                  <select className="settings-select" defaultValue="normal">
-                    {LINE_HEIGHT_OPTIONS.map((lh) => (
-                      <option key={lh.id} value={lh.id}>{lh.name}</option>
-                    ))}
-                  </select>
+                  <Dropdown
+                    options={LINE_HEIGHT_OPTIONS.map((l) => ({ value: l.id, label: l.name }))}
+                    value={lineHeight}
+                    onChange={setLineHeight}
+                  />
                 </div>
                 <div className="settings-item">
                   <label className="settings-label">
                     <span>内容宽度</span>
                     <span className="settings-desc">编辑区内容的最大宽度</span>
                   </label>
-                  <select className="settings-select" defaultValue="medium">
-                    {CONTENT_WIDTH_OPTIONS.map((cw) => (
-                      <option key={cw.id} value={cw.id}>{cw.name}</option>
-                    ))}
-                  </select>
+                  <Dropdown
+                    options={CONTENT_WIDTH_OPTIONS.map((c) => ({ value: c.id, label: c.name }))}
+                    value={contentWidth}
+                    onChange={setContentWidth}
+                  />
                 </div>
                 <div className="settings-item">
                   <label className="settings-label">
@@ -320,22 +332,30 @@ export function SettingsPanel({ open, onClose }: SettingsPanelProps) {
                     <span>LaTeX 渲染引擎</span>
                     <span className="settings-desc">选择数学公式渲染方式</span>
                   </label>
-                  <select className="settings-select" defaultValue="katex">
-                    <option value="katex">KaTeX（快速）</option>
-                    <option value="mathjax">MathJax（完整）</option>
-                  </select>
+                  <Dropdown
+                    options={[
+                      { value: 'katex', label: 'KaTeX（快速）' },
+                      { value: 'mathjax', label: 'MathJax（完整）' },
+                    ]}
+                    value={latexEngine}
+                    onChange={setLatexEngine}
+                  />
                 </div>
                 <div className="settings-item">
                   <label className="settings-label">
                     <span>代码高亮主题</span>
                     <span className="settings-desc">代码块的语法高亮样式</span>
                   </label>
-                  <select className="settings-select" defaultValue="github">
-                    <option value="github">GitHub</option>
-                    <option value="monokai">Monokai</option>
-                    <option value="dracula">Dracula</option>
-                    <option value="nord">Nord</option>
-                  </select>
+                  <Dropdown
+                    options={[
+                      { value: 'github', label: 'GitHub' },
+                      { value: 'monokai', label: 'Monokai' },
+                      { value: 'dracula', label: 'Dracula' },
+                      { value: 'nord', label: 'Nord' },
+                    ]}
+                    value={codeTheme}
+                    onChange={setCodeTheme}
+                  />
                 </div>
                 <div className="settings-item">
                   <label className="settings-label">

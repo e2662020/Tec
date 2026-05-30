@@ -71,6 +71,9 @@
 .bi-box::before { content: '\f1c8'; }
 .bi-box-seam::before { content: '\f1c7'; }
 
+/* Chevron */
+.bi-chevron-down::before { content: '\f282'; }
+
 /* Spin animation */
 .bi-spin {
   animation: bi-spin 2s infinite linear;
