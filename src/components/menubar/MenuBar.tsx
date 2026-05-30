@@ -100,8 +100,8 @@ export function MenuBar({ onAbout, onSettings }: MenuBarProps) {
                   className="menubar-dropdown-item"
                   onClick={() => handleAction(item.action)}
                 >
-                  <span>
-                    {item.icon && <i className={`bi ${item.icon}`} style={{ marginRight: 8, width: 16, textAlign: 'center' }}></i>}
+                  <span className="menubar-item-label">
+                    {item.icon && <i className={`bi ${item.icon}`}></i>}
                     {item.label}
                   </span>
                   {item.shortcut && (

@@ -86,16 +86,30 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background var(--tec-transition-fast);
+  white-space: nowrap;
 }
 
 .menubar-dropdown-item:hover {
   background: var(--tec-menubar-hover);
 }
 
+.menubar-item-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menubar-item-label .bi {
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
 .menubar-shortcut {
   color: var(--tec-text-tertiary);
   font-size: 12px;
   margin-left: 24px;
+  flex-shrink: 0;
 }
 
 /* ====== Sidebar ====== */
