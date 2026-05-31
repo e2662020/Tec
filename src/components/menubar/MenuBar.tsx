@@ -15,9 +15,10 @@ interface MenuItem {
 interface MenuBarProps {
   onAbout?: () => void;
   onSettings?: () => void;
+  children?: React.ReactNode;
 }
 
-export function MenuBar({ onAbout, onSettings }: MenuBarProps) {
+export function MenuBar({ onAbout, onSettings, children }: MenuBarProps) {
   const [openMenu, setOpenMenu] = useState<MenuId | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const { saveFile, openMdFile, openFolder, newFile } = useFileOps();
@@ -123,6 +124,7 @@ export function MenuBar({ onAbout, onSettings }: MenuBarProps) {
           )}
         </div>
       ))}
+      {children}
     </nav>
   );
 }

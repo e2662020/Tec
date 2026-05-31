@@ -26,19 +26,46 @@ function App() {
   const isNewFile = useEditorStore((s) => s.isNewFile);
   const isDirty = useEditorStore((s) => s.isDirty);
   const currentFilePath = useEditorStore((s) => s.currentFilePath);
+  const currentFileName = useEditorStore((s) => s.currentFileName);
   const currentTheme = useEditorStore((s) => s.currentTheme);
   const followSystemTheme = useEditorStore((s) => s.followSystemTheme);
   const autoSaveOnClose = useEditorStore((s) => s.autoSaveOnClose);
+  const sidebarVisible = useEditorStore((s) => s.sidebarVisible);
+  const setSidebarVisible = useEditorStore((s) => s.setSidebarVisible);
   const setCurrentTheme = useEditorStore((s) => s.setCurrentTheme);
   const setFollowSystemTheme = useEditorStore((s) => s.setFollowSystemTheme);
+  const galleryVisible = useGalleryStore((s) => s.visible);
+  const setGalleryVisible = useGalleryStore((s) => s.setVisible);
 
-  // 保持函数引用以在事件监听器中使用
   const fileOpsRef = useRef({ openMdFile, saveFile, newFile, openFolder });
   fileOpsRef.current = { openMdFile, saveFile, newFile, openFolder };
 
   const [aboutOpen, setAboutOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [closeConfirmOpen, setCloseConfirmOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  const toggleMobileMenu = useCallback(() => {
+    setMobileMenuOpen((prev) => !prev);
+  }, []);
+
+  const closeMobileDrawers = useCallback(() => {
+    if (sidebarVisible) setSidebarVisible(false);
+    if (galleryVisible) setGalleryVisible(false);
+  }, [sidebarVisible, galleryVisible, setSidebarVisible, setGalleryVisible]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // 关闭文件前检查未保存更改
   const handleCloseFile = useCallback(async () => {
@@ -254,12 +281,31 @@ function App() {
   }, [saveFile, openMdFile, handleCloseFile, newFile, isDirty, isNewFile]);
 
   return (
-    <div className="app-container">
+    <div className={`app-container${mobileMenuOpen ? ' mobile-menubar-open' : ''}`}>
       <MenuBar
         onAbout={() => setAboutOpen(true)}
         onSettings={() => setSettingsOpen(true)}
-      />
+      >
+        {isMobile && (
+          <>
+            <button
+              className="mobile-hamburger"
+              onClick={toggleMobileMenu}
+              aria-label="菜单"
+            >
+              <i className={`bi ${mobileMenuOpen ? 'bi-x-lg' : 'bi-list'}`}></i>
+            </button>
+            <span className="mobile-title">{currentFileName || 'Tec'}</span>
+          </>
+        )}
+      </MenuBar>
       <div className="app-main">
+        {isMobile && (
+          <div
+            className={`mobile-overlay${(sidebarVisible || galleryVisible) ? ' active' : ''}`}
+            onClick={closeMobileDrawers}
+          />
+        )}
         <Sidebar />
         <div className="editor-main">
           <EditorArea />

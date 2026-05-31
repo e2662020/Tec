@@ -37,6 +37,26 @@ export function preprocessMdx(md: string): string {
   let result = md;
 
   result = result.replace(
+    /\|\|(\d{1,2})(?::(\w+))?\n([\s\S]*?)\n\|\|\|/g,
+    (_, count: string, mode: string, content: string) => {
+      const n = parseInt(count);
+      if (mode === 'print') {
+        const blocks = content.split(/\n\|\|\n/);
+        const rendered = blocks.map((b: string) => `<div class="tec-column-cell">${b.trim()}</div>`).join('\n');
+        return `<div data-columns="true" data-count="${n}" data-mode="print">${rendered}</div>`;
+      }
+      if (content.includes('\n||\n')) {
+        const blocks = content.split(/\n\|\|\n/);
+        const rendered = blocks.map((b: string) => `<div class="tec-column-cell">${b.trim()}</div>`).join('\n');
+        return `<div data-columns="true" data-count="${n}">${rendered}</div>`;
+      }
+      const paragraphs = content.split(/\n\n+/);
+      const rendered = paragraphs.map((p: string) => `<div class="tec-column-cell">${p.trim()}</div>`).join('\n');
+      return `<div data-columns="true" data-count="${n}">${rendered}</div>`;
+    },
+  );
+
+  result = result.replace(
     /&([A-Za-z]|#[0-9A-Fa-f]{6})(.+?)&\1/g,
     (_, code: string, text: string) => {
       const color = code.startsWith('#') ? code : (COLOR_MAP[code] || '#E74C3C');
@@ -72,6 +92,24 @@ export function preprocessMdx(md: string): string {
 
 export function postprocessMdx(md: string): string {
   let result = md;
+
+  result = result.replace(
+    /<div data-columns="true" data-count="(\d+)"(?: data-mode="(\w+)")?>([\s\S]*?)<\/div>/g,
+    (_, count: string, mode: string, content: string) => {
+      const cells = content.match(/<div class="tec-column-cell">([\s\S]*?)<\/div>/g);
+      if (!cells) return `||${count}\n${content.trim()}\n|||`;
+      const cellContents = cells.map((c: string) => {
+        const m = c.match(/<div class="tec-column-cell">([\s\S]*?)<\/div>/);
+        return m ? m[1].trim() : '';
+      });
+      const modeSuffix = mode === 'print' ? ':print' : '';
+      const hasManualSplit = cellContents.length > 1 && content.includes('\n||\n');
+      if (hasManualSplit || cellContents.length > 1) {
+        return `||${count}${modeSuffix}\n${cellContents.join('\n||\n')}\n|||`;
+      }
+      return `||${count}${modeSuffix}\n${cellContents.join('\n\n')}\n|||`;
+    },
+  );
 
   result = result.replace(
     /<span data-colored-text="true" data-color="([^"]+)">([^<]*)<\/span>/g,
