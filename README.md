@@ -1,31 +1,15 @@
-&lt;p align="center"&gt;
-  &lt;img src="src-tauri/icons/icon.png" alt="Tec Icon" width="120" height="120"&gt;
-&lt;/p&gt;
+# Tec (Beta)
 
-&lt;h1 align="center"&gt;Tec (Beta)&lt;/h1&gt;
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Tauri](https://img.shields.io/badge/Tauri-v2-FFC131?logo=tauri)](https://tauri.app)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript)](https://www.typescriptlang.org)
 
-&lt;p align="center"&gt;
-  &lt;a href="https://opensource.org/licenses/MIT"&gt;
-    &lt;img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"&gt;
-  &lt;/a&gt;
-  &lt;a href="https://tauri.app"&gt;
-    &lt;img src="https://img.shields.io/badge/Tauri-v2-FFC131?logo=tauri" alt="Tauri v2"&gt;
-  &lt;/a&gt;
-  &lt;a href="https://react.dev"&gt;
-    &lt;img src="https://img.shields.io/badge/React-19-61DAFB?logo=react" alt="React 19"&gt;
-  &lt;/a&gt;
-  &lt;a href="https://www.typescriptlang.org"&gt;
-    &lt;img src="https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript" alt="TypeScript 6.0"&gt;
-  &lt;/a&gt;
-&lt;/p&gt;
+全平台、高性能的 Typora 风格 Markdown 编辑器，采用 Tauri v2 构建，接近原生性能。
 
-&lt;p align="center"&gt;
-  全平台、高性能的 Typora 风格 Markdown 编辑器，采用 Tauri v2 构建，接近原生性能。
-&lt;/p&gt;
+![Tec Icon](src-tauri/icons/icon.png)
 
-&lt;p align="center"&gt;
-  &lt;img src="EEF8C6CF378F4820895CA590E46AA42F.png" alt="Tec 界面展示" width="800"&gt;
-&lt;/p&gt;
+![Tec 界面展示](EEF8C6CF378F4820895CA590E46AA42F.png)
 
 ## 🌟 核心特性
 
