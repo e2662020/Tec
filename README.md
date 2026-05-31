@@ -1,11 +1,20 @@
 
-# Tec (Beta) — Typora 风格 Markdown 编辑器
+&lt;div align="center"&gt;
 
-全平台、高性能的所见即所得 Markdown 编辑器，采用 **Tauri v2** 构建，接近原生性能。
+# Tec (Beta)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Tauri](https://img.shields.io/badge/Tauri-v2-FFC131?logo=tauri)](https://tauri.app)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript)](https://www.typescriptlang.org)
+
+全平台、高性能的 Typora 风格 Markdown 编辑器，采用 Tauri v2 构建，接近原生性能。
 
 ![Tec 界面展示](EEF8C6CF378F4820895CA590E46AA42F.png)
 
-## 核心特性
+</div&gt;
+
+## 🌟 核心特性
 
 - **WYSIWYG 混合模式** — 块级元素永久渲染，行内标记光标进入时暴露源码
 - **源码模式** — `Ctrl+/` 一键切换 CodeMirror 6 纯源码编辑
@@ -16,7 +25,7 @@
 - **8 个内置主题** — 兼容 Typora 主题，支持自定义主题热切换
 - **全格式导出** — 捆绑 Pandoc，支持 PDF/HTML/docx/ePub/LaTeX 等
 
-## .mdx 格式
+## 📁 .mdx 格式
 
 **Tec 的核心创新格式**，ZIP 打包，内嵌全部资源，分享即开即用。
 
@@ -48,7 +57,7 @@ document.mdx (ZIP, Store 压缩)
 | **md → mdx** | 扫描图片引用 → 本地图片复制/hash/压缩入库 → 网络图片可选下载 → 替换引用路径 → ZIP 打包 |
 | **mdx → md** | 提取 content.md → 图片引用还原为原始路径 → 保存为纯 .md |
 
-## 技术栈
+## 🛠️ 技术栈
 
 | 层 | 选择 |
 |----|------|
@@ -62,42 +71,107 @@ document.mdx (ZIP, Store 压缩)
 | 图片处理 | Rust image crate (dHash/pHash/SSIM + WebP) |
 | 测试 | Vitest + Playwright + cargo test |
 
-## 快速开始
+## 📖 扩展语法
 
-### 环境要求
+### 有色文字
 
-- **Node.js** &gt;= 20
-- **Rust** &gt;= 1.77 (stable-x86_64-pc-windows-msvc)
-- **Visual Studio Build Tools** (Windows，含 C++ 工作负载)
+```
+语法: &amp;X文本内容&amp;X
 
-### 安装依赖
+颜色映射表 (在 .mdx 的 color_map.json 中，用户可自定义):
+  R=#E74C3C (红)    G=#2ECC71 (绿)    B=#3498DB (蓝)
+  O=#E67E22 (橙)    P=#9B59B6 (紫)    Y=#F1C40F (黄)
+  C=#1ABC9C (青)    K=#2C3E50 (黑)    W=#95A5A6 (灰)
+  H=#E91E63 (粉/Highlight)
 
-```bash
-npm install
+也可以直接用 #RRGGBB: &amp;#FF0000红色文字&amp;#FF0000
 ```
 
-### 开发模式
+### 分栏
 
-```bash
-npm run dev          # 仅启动前端开发服务器
-npx tauri dev        # 启动完整 Tauri 应用（含 Rust 后端）
+```
+模式1: 自动均分
+||2
+内容会自动按段落均分到 2 栏。
+|||
+
+模式2: 手动指定
+||3
+第一栏内容...
+|| 第二栏内容...
+|| 第三栏内容...
+|||
+
+模式3: 打印流动（屏幕预览时按均分显示，打印时优先占满每页左栏）
+||2:print
+很长很长的内容...
+|||
 ```
 
-### 构建
+### 文字对齐
 
-```bash
-npm run build        # 前端构建
-npx tauri build      # 完整 Tauri 打包（Windows/macOS/Linux）
+```
+=== 居中的文字 ===
+&gt;&gt;&gt; 右对齐的文字 &gt;&gt;&gt;
+&lt;&lt;&lt; 左对齐的文字 &lt;&lt;&lt;
+
+块级示例:
+=== ## 居中标题 ===
+&gt;&gt;&gt; 署名：Tec团队 &gt;&gt;&gt;
 ```
 
-### 测试
+### LaTeX 公式
 
-```bash
-npm test             # 前端单元测试 (Vitest)
-cargo test           # Rust 端单元测试 (在 src-tauri/ 目录下运行)
+```
+$$ 块级公式 $$     （标准语法）
+/()/ 块级公式 /()/ （替代语法）
+$ 行内公式 $       （行内）
+/( 行内公式 /)     （行内替代）
 ```
 
-## 项目结构
+### 其他扩展语法
+
+| 语法 | 示例 |
+|------|------|
+| 高亮 | `==高亮文字==` |
+| 上标 | `^上标^` |
+| 下标 | `~下标~` |
+| 脚注 | `[^1]` 引用 + `[^1]: 定义` |
+| 表情 | `:smile:` |
+| 目录 | `[TOC]` |
+| 任务列表 | `- [ ] 任务项` |
+
+## 🎨 主题
+
+内置 8 个主题，热切换即时生效：
+
+| 主题 | 类型 |
+|------|------|
+| Tec Light | 浅色 (品牌默认) |
+| Tec Dark | 深色 (品牌) |
+| GitHub | 浅色 |
+| Newsprint | 浅色 |
+| Night | 深色 |
+| Pixyll | 浅色 |
+| Whitey | 浅色 |
+| Gothic | 深色 |
+
+自定义主题放在 `~/.tec/themes/` 目录下即可在设置中选择。
+
+## ⌨️ 快捷键
+
+| 快捷键 | 功能 |
+|--------|------|
+| `Ctrl+S` | 保存文件 |
+| `Ctrl+O` | 打开文件 |
+| `Ctrl+N` | 新建文档 |
+| `Ctrl+/` | 切换源码/WYSIWYG 模式 |
+| `Ctrl+F` | 搜索替换 |
+| `Ctrl+Shift+1` | 文件面板 |
+| `Ctrl+Shift+2` | 大纲面板 |
+| `Ctrl+Shift+L` | 切换侧边栏 |
+
+## 📂 项目结构
 
 ```
 Tec/
@@ -128,118 +202,61 @@ Tec/
 └── package.json
 ```
 
-## 快捷键
+## 🚀 快速开始
 
-| 快捷键 | 功能 |
-|--------|------|
-| `Ctrl+S` | 保存文件 |
-| `Ctrl+O` | 打开文件 |
-| `Ctrl+N` | 新建文档 |
-| `Ctrl+/` | 切换源码/WYSIWYG 模式 |
-| `Ctrl+F` | 搜索替换 |
-| `Ctrl+Shift+1` | 文件面板 |
-| `Ctrl+Shift+2` | 大纲面板 |
-| `Ctrl+Shift+L` | 切换侧边栏 |
+### 环境要求
 
-## 扩展语法
+- **Node.js** &gt;= 20
+- **Rust** &gt;= 1.77 (stable-x86_64-pc-windows-msvc)
+- **Visual Studio Build Tools** (Windows，含 C++ 工作负载)
 
-### 5.1 有色文字
+### 安装依赖
 
-```
-语法: &amp;X文本内容&amp;X
-
-颜色映射表 (在 .mdx 的 color_map.json 中，用户可自定义):
-  R=#E74C3C (红)    G=#2ECC71 (绿)    B=#3498DB (蓝)
-  O=#E67E22 (橙)    P=#9B59B6 (紫)    Y=#F1C40F (黄)
-  C=#1ABC9C (青)    K=#2C3E50 (黑)    W=#95A5A6 (灰)
-  H=#E91E63 (粉/Highlight)
-
-也可以直接用 #RRGGBB: &amp;#FF0000红色文字&amp;#FF0000
+```bash
+npm install
 ```
 
-### 5.2 分栏
+### 开发模式
 
-```
-模式1: 自动均分
-||2
-内容会自动按段落均分到 2 栏。
-|||
+```bash
+# 仅启动前端开发服务器
+npm run dev
 
-模式2: 手动指定
-||3
-第一栏内容...
-|| 第二栏内容...
-|| 第三栏内容...
-|||
-
-模式3: 打印流动（屏幕预览时按均分显示，打印时优先占满每页左栏）
-||2:print
-很长很长的内容...
-|||
+# 启动完整 Tauri 应用（含 Rust 后端）
+npx tauri dev
 ```
 
-### 5.3 文字对齐
+### 构建
 
-```
-=== 居中的文字 ===
-&gt;&gt;&gt; 右对齐的文字 &gt;&gt;&gt;
-&lt;&lt;&lt; 左对齐的文字 &lt;&lt;&lt;
+```bash
+# 前端构建
+npm run build
 
-块级示例:
-=== ## 居中标题 ===
-&gt;&gt;&gt; 署名：Tec团队 &gt;&gt;&gt;
+# 完整 Tauri 打包（Windows/macOS/Linux）
+npx tauri build
 ```
 
-### 5.4 LaTeX 公式
+### 测试
 
+```bash
+# 前端单元测试
+npm test
+
+# Rust 端单元测试
+cd src-tauri &amp;&amp; cargo test
 ```
-$$ 块级公式 $$     （标准语法）
-/()/ 块级公式 /()/ （替代语法）
-$ 行内公式 $       （行内）
-/( 行内公式 /)     （行内替代）
-```
 
-### 5.5 其他扩展语法
+## 📊 Star History
 
-| 语法 | 示例 |
-|------|------|
-| 高亮 | `==高亮文字==` |
-| 上标 | `^上标^` |
-| 下标 | `~下标~` |
-| 脚注 | `[^1]` 引用 + `[^1]: 定义` |
-| 表情 | `:smile:` |
-| 目录 | `[TOC]` |
-| 任务列表 | `- [ ] 任务项` |
+[![Star History Chart](https://api.star-history.com/svg?repos=e2662020/Tec&amp;type=Date)](https://star-history.com/#e2662020/Tec&amp;Date)
 
-## 主题
+## 👥 Contributors
 
-内置 8 个主题，热切换即时生效：
+感谢所有为 Tec 做出贡献的人！
 
-| 主题 | 类型 |
-|------|------|
-| Tec Light | 浅色 (品牌默认) |
-| Tec Dark | 深色 (品牌) |
-| GitHub | 浅色 |
-| Newsprint | 浅色 |
-| Night | 深色 |
-| Pixyll | 浅色 |
-| Whitey | 浅色 |
-| Gothic | 深色 |
+[![Contributors](https://contrib.rocks/image?repo=e2662020/Tec)](https://github.com/e2662020/Tec/graphs/contributors)
 
-自定义主题放在 `~/.tec/themes/` 目录下即可在设置中选择。
+## 📄 许可证
 
-## 开发阶段
-
-- [x] Phase 1 — 骨架搭建 (Tauri + React + Milkdown + 文件面板)
-- [x] Phase 2 — 编辑器核心扩展 (11 个自定义语法扩展)
-- [x] Phase 3 — .mdx 格式 (ZIP 打包/解包/图片入库)
-- [x] Phase 4 — 图片库系统 (相似检测/合并/拖入)
-- [x] Phase 5 — 主题系统 (8 个内置主题 + 自定义 + 热切换)
-- [x] Phase 6 — 导出系统 (Pandoc 全格式)
-- [x] Phase 7 — 体验完善 (搜索替换/自动保存/大纲/快捷键)
-- [x] Phase 8 — 测试 (Vitest + Rust 单元测试)
-
-## 许可
-
-MIT License
+MIT License © 2024
 
