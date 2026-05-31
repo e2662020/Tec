@@ -679,7 +679,7 @@ SSIM(x, y) = [l(x,y)]^α · [c(x,y)]^β · [s(x,y)]^γ
 
 ```mermaid
 flowchart TD
-    A[打开 .md 文件] --> B[扫描所有 ![] 图片引用]
+    A[打开 .md 文件] --> B[扫描所有图片引用]
     B --> C{图片类型判断}
     
     C -->|本地图片| D[复制图片]
@@ -695,7 +695,7 @@ flowchart TD
     L --> E
     K -->|跳过| M[保留 URL 引用]
     
-    I --> N[替换引用路径为 assets/hash.webp]
+    I --> N["替换引用路径为 assets/hash.webp"]
     M --> N
     N --> O[生成 manifest.json 等元数据]
     O --> P[ZIP 打包为 .mdx]
@@ -708,7 +708,7 @@ flowchart TD
     A[打开 .mdx 文件] --> B[解压 content.md]
     B --> C[提取 manifest.json]
     C --> D[扫描 assets/ 引用]
-    D --> E[将 assets/hash.webp 还原为原始路径]
+    D --> E["将 assets/ 引用还原为原始路径"]
     E --> F[生成纯 .md 文件]
     F --> G[保存到目标位置]
 ```
