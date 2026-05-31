@@ -1,9 +1,30 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { open } from '@tauri-apps/plugin-dialog';
+import { convertFileSrc } from '@tauri-apps/api/core';
 import { useGalleryStore } from '../../store/galleryStore';
 import { useImageOps } from '../../hooks/useImageOps';
 import { useEditorStore } from '../../store/editorStore';
+import { getAssetBlobUrls } from '../../plugins/localImage';
 import type { ImageMeta, SimilarGroup } from '../../types';
+
+/** 构造图片的展示 URL（缩略图用） */
+function resolveThumbUrl(image: ImageMeta): string | null {
+  // 1. MDX 内存资产 → blob URL
+  const blobUrl = getAssetBlobUrls().get(image.hash);
+  if (blobUrl) return blobUrl;
+
+  // 2. 磁盘资产 → convertFileSrc
+  const currentFilePath = useEditorStore.getState().currentFilePath;
+  if (currentFilePath && image.path) {
+    const docDir = currentFilePath.split(/[\\/]/).slice(0, -1).join('/');
+    const clean = image.path.replace(/\\/g, '/');
+    const full = `${docDir.replace(/\\/g, '/')}/${clean}`;
+    return convertFileSrc(full);
+  }
+
+  // 3. 没有可用路径
+  return null;
+}
 
 function SimilarGroupCard({ group }: { group: SimilarGroup }) {
   const { mergeSimilarGroup } = useImageOps();
@@ -45,13 +66,42 @@ function SimilarGroupCard({ group }: { group: SimilarGroup }) {
 }
 
 function ImageThumb({ image, isGrid }: { image: ImageMeta; isGrid: boolean }) {
+  const [imgError, setImgError] = useState(false);
+  const url = resolveThumbUrl(image);
+  const showImg = url && !imgError;
+
+  const displayName = image.name || image.hash.slice(0, 12);
+  const sizeStr = image.size > 1024 * 1024
+    ? `${(image.size / (1024 * 1024)).toFixed(1)}MB`
+    : image.size > 1024
+      ? `${(image.size / 1024).toFixed(0)}KB`
+      : `${image.size}B`;
+
   return (
-    <div className={`gallery-thumb ${isGrid ? 'grid' : 'list'}`}>
+    <div className={`gallery-thumb ${isGrid ? 'grid' : 'list'}`} title={displayName}>
       <div className="gallery-thumb-preview">
-        <span className="gallery-thumb-name"><i className="bi bi-image"></i> {image.hash.slice(0, 12)}</span>
+        {showImg ? (
+          <img
+            src={url}
+            alt={displayName}
+            className="gallery-thumb-img"
+            loading="lazy"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="gallery-thumb-placeholder">
+            <i className="bi bi-image"></i>
+          </div>
+        )}
       </div>
       <div className="gallery-thumb-info">
-        {image.width}×{image.height} {image.format}
+        <span className="gallery-thumb-name">{displayName}</span>
+        <span className="gallery-thumb-meta">
+          {image.width > 0 && image.height > 0
+            ? `${image.width}×${image.height}`
+            : sizeStr}
+          {' '}{image.format.toUpperCase()}
+        </span>
       </div>
     </div>
   );
@@ -89,7 +139,10 @@ export function ImagePanel() {
   }, [importImage]);
 
   const filteredImages = searchQuery
-    ? images.filter((i) => i.hash.includes(searchQuery))
+    ? images.filter((i) => {
+        const name = i.name || i.hash;
+        return name.toLowerCase().includes(searchQuery.toLowerCase());
+      })
     : images;
 
   return (

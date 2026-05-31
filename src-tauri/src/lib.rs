@@ -29,6 +29,8 @@ pub fn run() {
             commands::file::get_file_info,
             commands::file::list_folder,
             commands::file::diagnose_write,
+            commands::file::list_assets,
+            commands::file::save_original_to_assets,
             commands::mdx::read_mdx,
             commands::mdx::write_mdx,
             commands::mdx::convert_md_to_mdx,

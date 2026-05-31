@@ -161,6 +161,108 @@ pub async fn diagnose_write(test_path: String) -> TecResult<String> {
     ))
 }
 
+/// 扫描 `{dir_path}/assets/` 目录下的所有图片文件，返回 ImageMeta 列表
+#[tauri::command]
+pub async fn list_assets(dir_path: String) -> TecResult<Vec<crate::image::commands::ImageMeta>> {
+    let assets_dir = Path::new(&dir_path).join("assets");
+    if !assets_dir.exists() || !assets_dir.is_dir() {
+        return Ok(Vec::new());
+    }
+
+    let mut images = Vec::new();
+
+    let entries = std::fs::read_dir(&assets_dir)
+        .map_err(|e| TecError::Io(format!("无法读取 assets 目录 '{}': {}", assets_dir.display(), e)))?;
+
+    for entry in entries {
+        let entry = entry.map_err(|e| TecError::Io(format!("读取目录项失败: {}", e)))?;
+        let path = entry.path();
+
+        if !path.is_file() {
+            continue;
+        }
+
+        let extension = path
+            .extension()
+            .and_then(|e| e.to_str())
+            .unwrap_or("")
+            .to_lowercase();
+
+        // 仅处理图片文件，跳过 _orig 原图备份（它们单独由主文件引用）
+        if !matches!(extension.as_str(), "png" | "jpg" | "jpeg" | "gif" | "webp" | "bmp" | "svg") {
+            continue;
+        }
+
+        let file_name = path
+            .file_name()
+            .and_then(|n| n.to_str())
+            .unwrap_or("unknown");
+
+        // 从文件名提取 hash（文件名格式: {hash}.webp 或 {hash}.{ext}）
+        let hash = file_name
+            .split('.')
+            .next()
+            .unwrap_or(file_name)
+            .to_string();
+
+        let metadata = entry.metadata().ok();
+        let file_size = metadata.as_ref().map(|m| m.len()).unwrap_or(0);
+
+        // 读取图片获取尺寸（使用外部 image crate）
+        let (width, height, format) = if let Ok(data) = std::fs::read(&path) {
+            if let Ok(img) = image::load_from_memory(&data) {
+                (img.width(), img.height(), extension.clone())
+            } else {
+                (0u32, 0u32, extension.clone())
+            }
+        } else {
+            (0u32, 0u32, extension.clone())
+        };
+
+        images.push(crate::image::commands::ImageMeta {
+            hash,
+            width,
+            height,
+            size: file_size,
+            format,
+            compressed: extension == "webp",
+        });
+    }
+
+    Ok(images)
+}
+
+/// 将原始图片原样复制到 `{save_dir}/assets/{hash}_orig.{ext}`，返回保存的文件名
+#[tauri::command]
+pub async fn save_original_to_assets(
+    source_path: String,
+    save_dir: String,
+    hash: String,
+) -> TecResult<String> {
+    let ext = Path::new(&source_path)
+        .extension()
+        .and_then(|e| e.to_str())
+        .unwrap_or("png")
+        .to_lowercase();
+
+    let file_name = format!("{hash}_orig.{ext}");
+    let assets_dir = Path::new(&save_dir).join("assets");
+    std::fs::create_dir_all(&assets_dir)
+        .map_err(|e| TecError::Io(format!("无法创建 assets 目录: {}", e)))?;
+
+    let dest = assets_dir.join(&file_name);
+    std::fs::copy(&source_path, &dest)
+        .map_err(|e| TecError::Io(format!("复制原图失败: {}", e)))?;
+
+    log::info!(
+        "Original image saved: {} -> {}",
+        source_path,
+        dest.display()
+    );
+
+    Ok(file_name)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

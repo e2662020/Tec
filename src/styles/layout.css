@@ -982,6 +982,58 @@
   font-family: var(--tec-font-mono);
 }
 
+/* 图片缩略图预览 */
+.gallery-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--tec-text-tertiary);
+  opacity: 0.35;
+  font-size: 20px;
+}
+
+.gallery-thumb-meta {
+  font-size: 8px;
+  color: var(--tec-text-tertiary);
+  display: block;
+  margin-top: 1px;
+}
+
+/* 列表视图中缩略图的特殊样式 */
+.gallery-thumb.list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+}
+
+.gallery-thumb.list .gallery-thumb-preview {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tec-bg-tertiary);
+}
+
+.gallery-thumb.list .gallery-thumb-info {
+  flex: 1;
+  text-align: left;
+  padding: 0;
+}
+
 .gallery-thumb-info {
   padding: 2px 4px;
   font-size: 9px;

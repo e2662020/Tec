@@ -3,7 +3,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { useEditorStore } from '../store/editorStore';
 import { useGalleryStore } from '../store/galleryStore';
-import type { FileInfo, MdxDocument } from '../types';
+import type { FileInfo, ImageMeta, MdxDocument } from '../types';
 
 function showError(action: string, err: unknown): void {
   const message = err instanceof Error ? err.message : String(err);
@@ -63,13 +63,39 @@ export function useFileOps() {
             })),
           );
           storeOpenFile(path, name, doc.content);
-          // MDX 文件有图片库，自动打开
-          useGalleryStore.getState().setVisible(true);
+
+          // 从 MDX 资产填充图片库
+          const mdxImages: ImageMeta[] = doc.assets.map((a) => {
+            const hash = a.name.replace(/\.\w+$/, '');
+            const format = a.name.split('.').pop() || 'webp';
+            return {
+              hash,
+              width: 0,
+              height: 0,
+              size: a.data.length,
+              format,
+              compressed: format === 'webp',
+              name: a.name,
+              path: `assets/${a.name}`,
+            };
+          });
+          useGalleryStore.getState().setImages(mdxImages);
         } else {
           const docContent = await invoke<string>('read_file', { path });
           storeOpenFile(path, name, docContent);
-          // MD 文件没有图片库，自动关闭
-          useGalleryStore.getState().setVisible(false);
+
+          // 扫描本地 assets/ 目录，填充图片库
+          const docDir = path.split(/[\\/]/).slice(0, -1).join('/');
+          try {
+            const assetsImages = await invoke<ImageMeta[]>('list_assets', { dirPath: docDir });
+            useGalleryStore.getState().setImages(assetsImages.map((img) => ({
+              ...img,
+              path: `assets/${img.hash}.${img.format}`,
+            })));
+          } catch {
+            // assets/ 目录不存在或为空，图库保持清空状态
+            useGalleryStore.getState().setImages([]);
+          }
         }
 
         useEditorStore.getState().setStatusMessage(`📂 已打开: ${name}`, 'info');

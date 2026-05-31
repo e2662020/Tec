@@ -9,6 +9,11 @@ let currentDocDir = '';
 // ── MDX 资产表：hash → blob URL（.mdx 用 blob: 渲染内存图片） ──
 let assetBlobUrls = new Map<string, string>();
 
+/** 获取 MDX 资产的 blob URL Map（供 ImagePanel 查询缩略图 URL） */
+export function getAssetBlobUrls(): ReadonlyMap<string, string> {
+  return assetBlobUrls;
+}
+
 export function setDocDir(dir: string, mdxAssets?: MdxAsset[]) {
   currentDocDir = dir;
 

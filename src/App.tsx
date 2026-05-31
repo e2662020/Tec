@@ -26,7 +26,6 @@ function App() {
   const isNewFile = useEditorStore((s) => s.isNewFile);
   const isDirty = useEditorStore((s) => s.isDirty);
   const currentFilePath = useEditorStore((s) => s.currentFilePath);
-  const currentFileName = useEditorStore((s) => s.currentFileName);
   const currentTheme = useEditorStore((s) => s.currentTheme);
   const followSystemTheme = useEditorStore((s) => s.followSystemTheme);
   const autoSaveOnClose = useEditorStore((s) => s.autoSaveOnClose);

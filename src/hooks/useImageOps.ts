@@ -20,20 +20,59 @@ export function useImageOps() {
   const { addImage, setSimilarGroups, setIsDetecting } = useGalleryStore();
 
   /**
-   * .md 流程：直接引用源路径，不复制/不压缩。
-   * 返回 `![文件名](原路径)`，localImagePlugin 用 convertFileSrc 渲染。
+   * .md 流程：压缩为 WebP → 存入 assets/ → 同时保留原图。
+   * 返回 `![alt](assets/{hash}.webp)`。
+   *
+   * 如果 .md 文件尚未保存（无路径），则回退到直接引用原路径。
    */
   const saveImageMd = useCallback(async (filePath: string): Promise<{ imageMd: string } | null> => {
-    // 验证文件是否存在
+    const currentFilePath = useEditorStore.getState().currentFilePath;
+    if (!currentFilePath) {
+      // 文件尚未保存 — 直接引用原路径
+      try {
+        await invoke('get_file_info', { path: filePath });
+      } catch {
+        showError('图片引用', '文件不存在: ' + filePath);
+        return null;
+      }
+      const alt = fileNameWithoutExt(filePath);
+      const imageMd = `![${alt}](${filePath})`;
+      return { imageMd };
+    }
+
+    // 文件已保存 — 压缩到 assets/ 并存入图片库
     try {
-      await invoke('get_file_info', { path: filePath });
-    } catch {
-      showError('图片引用', '文件不存在: ' + filePath);
+      const saveDir = currentFilePath.split(/[\\/]/).slice(0, -1).join('/');
+
+      // import_image: hash → compress → save to assets/{hash}.webp → return ImageMeta
+      const meta = await invoke<ImageMeta>('import_image', {
+        sourcePath: filePath,
+        saveDir,
+      });
+
+      // 同时保存原图到 assets/{hash}_orig.{ext}（用户可对比查看）
+      const origName = await invoke<string>('save_original_to_assets', {
+        sourcePath: filePath,
+        saveDir,
+        hash: meta.hash,
+      });
+      console.log('[Tec] 原图已保存:', origName);
+
+      const alt = fileNameWithoutExt(filePath);
+      const imageMd = `![${alt}](assets/${meta.hash}.webp)`;
+
+      // 添加到图片库
+      useGalleryStore.getState().addImage({
+        ...meta,
+        name: alt,
+        path: `assets/${meta.hash}.webp`,
+      });
+
+      return { imageMd };
+    } catch (err) {
+      showError('MD 图片导入', err);
       return null;
     }
-    const alt = fileNameWithoutExt(filePath);
-    const imageMd = `![${alt}](${filePath})`;
-    return { imageMd };
   }, []);
 
   /**
@@ -69,6 +108,8 @@ export function useImageOps() {
         size: result.compressedSize,
         format: 'webp',
         compressed: true,
+        name: fileNameWithoutExt(filePath),
+        path: `assets/${result.hash}.webp`,
       });
 
       const imageMd = `![${result.hash}](assets/${result.hash}.webp)`;
@@ -109,6 +150,23 @@ export function useImageOps() {
     }
   }, [addImage, setSimilarGroups, setIsDetecting]);
 
+  /**
+   * 扫描本地 `assets/` 目录，将图片填充到图库。
+   * 用于 .md 文件打开时加载已有图片。
+   */
+  const scanAssets = useCallback(async (dirPath: string) => {
+    try {
+      const images = await invoke<ImageMeta[]>('list_assets', { dirPath });
+      useGalleryStore.getState().setImages(images.map((img) => ({
+        ...img,
+        path: `assets/${img.hash}.${img.format}`,
+      })));
+    } catch (err) {
+      // 静默处理：assets/ 目录可能不存在或为空
+      console.log('[Tec] scanAssets: assets 目录为空或不存在');
+    }
+  }, []);
+
   const manualDetect = useCallback(async () => {
     try {
       setIsDetecting(true);
@@ -132,5 +190,5 @@ export function useImageOps() {
     ));
   }, [setSimilarGroups]);
 
-  return { saveImageMd, saveImageMdx, importImage, manualDetect, mergeSimilarGroup };
+  return { saveImageMd, saveImageMdx, importImage, scanAssets, manualDetect, mergeSimilarGroup };
 }

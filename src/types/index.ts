@@ -46,6 +46,10 @@ export interface ImageMeta {
   size: number;
   format: string;
   compressed: boolean;
+  /** 原始文件名（用于图库显示） */
+  name?: string;
+  /** 图片在 assets/ 中的路径（用于构造 URL） */
+  path?: string;
 }
 
 export interface SimilarImage {
