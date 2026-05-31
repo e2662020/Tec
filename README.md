@@ -1,10 +1,18 @@
 
-| 📝 | Tec (Beta) |
-| --- | --- |
-| **全平台、高性能的 Typora 风格 Markdown 编辑器，采用 Tauri v2 构建，接近原生性能。** | |
-| | [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Tauri](https://img.shields.io/badge/Tauri-v2-FFC131?logo=tauri)](https://tauri.app) [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev) [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript)](https://www.typescriptlang.org) |
+&lt;div align="center"&gt;
+
+# Tec (Beta)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Tauri](https://img.shields.io/badge/Tauri-v2-FFC131?logo=tauri)](https://tauri.app)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript)](https://www.typescriptlang.org)
+
+全平台、高性能的 Typora 风格 Markdown 编辑器，采用 Tauri v2 构建，接近原生性能。
 
 ![Tec 界面展示](EEF8C6CF378F4820895CA590E46AA42F.png)
+
+</div&gt;
 
 ## 🌟 核心特性
 
