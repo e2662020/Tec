@@ -1,3 +1,5 @@
+![Tec Icon](src-tauri/icons/icon.png =120x)
+
 # Tec (Beta)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -6,8 +8,6 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript)](https://www.typescriptlang.org)
 
 全平台、高性能的 Typora 风格 Markdown 编辑器，采用 Tauri v2 构建，接近原生性能。
-
-![Tec Icon](src-tauri/icons/icon.png)
 
 ![Tec 界面展示](EEF8C6CF378F4820895CA590E46AA42F.png)
 
@@ -136,7 +136,7 @@ $ 行内公式 $       （行内）
 | 脚注 | `[^1]` 引用 + `[^1]: 定义` |
 | 表情 | `:smile:` |
 | 目录 | `[TOC]` |
-| 任务列表 | `- [ ] 任务项` |
+| 任务列表 | `- [ ]` |
 
 ## 🎨 主题
 
