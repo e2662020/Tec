@@ -1,6 +1,9 @@
+
 # Tec (Beta) — Typora 风格 Markdown 编辑器
 
 全平台、高性能的所见即所得 Markdown 编辑器，采用 **Tauri v2** 构建，接近原生性能。
+
+![Tec 界面展示](EEF8C6CF378F4820895CA590E46AA42F.png)
 
 ## 核心特性
 
@@ -63,8 +66,8 @@ document.mdx (ZIP, Store 压缩)
 
 ### 环境要求
 
-- **Node.js** >= 20
-- **Rust** >= 1.77 (stable-x86_64-pc-windows-msvc)
+- **Node.js** &gt;= 20
+- **Rust** &gt;= 1.77 (stable-x86_64-pc-windows-msvc)
 - **Visual Studio Build Tools** (Windows，含 C++ 工作负载)
 
 ### 安装依赖
@@ -142,11 +145,11 @@ Tec/
 
 | 语法 | 示例 |
 |------|------|
-| 有色文字 | `&R红色文字&R` 或 `&#FF0000自定义色&#FF0000` |
+| 有色文字 | `&amp;R红色文字&amp;R` 或 `&amp;#FF0000自定义色&amp;#FF0000` |
 | 分栏 | `\|\|2` 开启 → `\|\|` 分隔 → `\|\|\|` 结束 |
 | 居中 | `=== 居中文字 ===` |
-| 右对齐 | `>>> 右对齐 >>>` |
-| 左对齐 | `<<< 左对齐 <<<` |
+| 右对齐 | `&gt;&gt;&gt; 右对齐 &gt;&gt;&gt;` |
+| 左对齐 | `&lt;&lt;&lt; 左对齐 &lt;&lt;&lt;` |
 | LaTeX | `$$块级公式$$` / `$行内公式$` |
 | 高亮 | `==高亮文字==` |
 | 上标 | `^上标^` |
@@ -184,3 +187,4 @@ Tec/
 ## 许可
 
 MIT License
+
